@@ -1,0 +1,18 @@
+{
+  "name": "councilor-dino-acuna",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Official static site for Councilor Dino Acuna of Victorias City, Negros Occidental.",
+  "scripts": {
+    "dev": "live-server --port=4321 --no-browser",
+    "start": "npm run dev",
+    "serve": "live-server --port=4321 --no-browser"
+  },
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  },
+  "browserslist": [
+    "defaults",
+    "not IE 11"
+  ]
+}

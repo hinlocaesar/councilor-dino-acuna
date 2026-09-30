@@ -1,0 +1,111 @@
+# Councilor Dino Acuña — Static Site
+
+A hand-built static website for **Councilor Dino Acuña** of the City of Victorias,
+Negros Occidental, Philippines.
+
+Content is drawn from the author's public blog and official Facebook page.
+
+| Source | URL |
+| --- | --- |
+| Blog | https://dinoacuna.wordpress.com/ |
+| Facebook page | https://www.facebook.com/dino2022 |
+| Facebook videos | https://www.facebook.com/dino2022/videos |
+| X / Twitter | https://twitter.com/dinoacuna |
+
+---
+
+## Run it locally
+
+```bash
+npm install     # installs live-server (dev dependency)
+npm run dev     # serves the site with live reload
+```
+
+Then open:
+
+```
+http://localhost:4321/
+```
+
+Edit any file and the browser refreshes automatically.
+
+> **Port:** the dev server is pinned to `4321` because `5173` and `8080` were
+> already in use on this machine. Change it in `package.json` if needed.
+
+No build step is required — it is plain HTML, CSS and ES5-compatible JavaScript.
+You can also just open `index.html` straight off the disk.
+
+---
+
+## Structure
+
+```
+.
+├─ index.html                 # the whole page
+├─ assets/
+│  ├─ css/styles.css          # design system + all component styles
+│  └─ js/
+│     ├─ data.js              # ← EDIT THIS to add videos / blog posts
+│     └─ main.js              # behaviour (nav, reveal, filter, modal)
+├─ package.json               # dev server only
+└─ .gitignore
+```
+
+## Adding a video or blog post
+
+Everything dynamic lives in **`assets/js/data.js`**. The page reads it on load.
+
+Add a video:
+
+```js
+{
+  id: "1234567890",
+  title: "57th Regular Session",
+  caption: "One or two lines of context.",
+  category: "council",        // council | program | field
+  duration: "0:40",           // or "—"
+  views: "481",
+  when: "2 weeks ago",
+  url: "https://www.facebook.com/dino2022/videos/..."
+}
+```
+
+`category` drives the filter chips at the top of the Videos section. Cards
+appear immediately — no rebuild needed, just reload.
+
+Add a blog entry to the `posts` array the same way (`title`, `excerpt`,
+`date`, `tag`, `url`).
+
+---
+
+## Design notes
+
+- **Type** — Fraunces (display serif) + Inter (UI), loaded from Google Fonts.
+- **Palette** — deep forest greens with gold accents, nodding to Victorias City
+  and the sugarcane fields of Negros Occidental.
+- **Motion** — scroll-reveals via `IntersectionObserver`, a gradient sheen on
+  the name, drifting background orbs, a marquee ticker, and a scroll-progress bar.
+- **Responsive** — full-width down to 320px, with a slide-in mobile menu.
+- **Accessibility** — skip link, visible focus rings, `aria-*` state on the menu
+  and filter chips, real `<button>` hit areas on video cards, and a full
+  `prefers-reduced-motion` path that disables animation.
+
+## Images
+
+Photographs are hot-linked from the original WordPress uploads, so there are no
+image files in this repository and nothing to re-upload. If a host blocks hot
+linking, download the files into `assets/img/` and swap the `src` values in
+`index.html`.
+
+## Deploying
+
+The site is fully static — any host works.
+
+- **GitHub Pages:** push to a repo, then *Settings → Pages → Deploy from branch*.
+- **Netlify / Vercel:** drag the folder in, or connect the repo. No build command.
+
+## Disclaimer
+
+An unofficial tribute site. All writing and photographs remain the work of their
+original author, Dino Acuña. Not affiliated with or endorsed by the City
+Government of Victorias.
