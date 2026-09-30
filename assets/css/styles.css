@@ -992,18 +992,47 @@ strong { font-weight: 600; color: var(--cream); }
   overflow: hidden;
   border-bottom: 1px solid var(--line-soft);
 }
-.vcard-thumb::after {
+/* faint grid on the fallback tile */
+.vcard-thumb::before {
   content: "";
   position: absolute;
   inset: 0;
+  z-index: 0;
   background-image:
     linear-gradient(rgba(230, 196, 124, 0.05) 1px, transparent 1px),
     linear-gradient(90deg, rgba(230, 196, 124, 0.05) 1px, transparent 1px);
   background-size: 26px 26px;
 }
+/* legibility scrim, sits above the photo */
+.vcard-thumb::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background:
+    linear-gradient(to top, rgba(4, 16, 13, 0.72) 0%, rgba(4, 16, 13, 0.12) 42%, transparent 62%),
+    radial-gradient(120% 90% at 50% 50%, transparent 40%, rgba(4, 16, 13, 0.45) 100%);
+}
+
+.vcard-img {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(0.92) brightness(0.88) contrast(1.03);
+  transition: transform 0.9s var(--ease), filter 0.5s var(--ease);
+}
+.vcard:hover .vcard-img {
+  transform: scale(1.06);
+  filter: saturate(1.05) brightness(0.98) contrast(1.05);
+}
+
 .vcard-play {
   position: relative;
-  z-index: 1;
+  z-index: 3;
   width: 54px;
   height: 54px;
   border-radius: 50%;
@@ -1025,7 +1054,7 @@ strong { font-weight: 600; color: var(--cream); }
   position: absolute;
   right: 0.7rem;
   bottom: 0.7rem;
-  z-index: 1;
+  z-index: 3;
   padding: 0.2rem 0.5rem;
   border-radius: 6px;
   background: rgba(4, 16, 13, 0.82);
@@ -1039,7 +1068,7 @@ strong { font-weight: 600; color: var(--cream); }
   position: absolute;
   left: 0.7rem;
   top: 0.7rem;
-  z-index: 1;
+  z-index: 3;
   padding: 0.22rem 0.6rem;
   border-radius: 99px;
   font-size: 0.6rem;
@@ -1053,6 +1082,24 @@ strong { font-weight: 600; color: var(--cream); }
 }
 .vcard-cat[data-cat="program"] { color: var(--jade-300); }
 .vcard-cat[data-cat="field"] { color: #e9b6a0; }
+
+/* marks an image that is a photo, not a real video frame */
+.vcard-still {
+  position: absolute;
+  right: 0.7rem;
+  top: 0.7rem;
+  z-index: 3;
+  padding: 0.22rem 0.55rem;
+  border-radius: 99px;
+  font-size: 0.58rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 600;
+  background: rgba(4, 16, 13, 0.7);
+  border: 1px solid var(--line-soft);
+  color: var(--muted);
+  backdrop-filter: blur(6px);
+}
 
 .vcard-body { padding: 1.2rem 1.25rem 1.35rem; display: flex; flex-direction: column; flex: 1; }
 .vcard-body h3 { font-size: 1.03rem; font-weight: 550; line-height: 1.28; margin-bottom: 0.45em; }

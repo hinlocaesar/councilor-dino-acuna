@@ -44,6 +44,7 @@ You can also just open `index.html` straight off the disk.
 ├─ index.html                 # the whole page
 ├─ assets/
 │  ├─ css/styles.css          # design system + all component styles
+│  ├─ img/thumbs/             # video thumbnails (local, see note)
 │  └─ js/
 │     ├─ data.js              # ← EDIT THIS to add videos / blog posts
 │     └─ main.js              # behaviour (nav, reveal, filter, modal)
@@ -66,6 +67,8 @@ Add a video:
   duration: "0:40",           // or "—"
   views: "481",
   when: "2 weeks ago",
+  thumb: "assets/img/thumbs/1234567890.jpg",   // optional
+  still: true,                                // optional, see below
   url: "https://www.facebook.com/dino2022/videos/..."
 }
 ```
@@ -73,8 +76,27 @@ Add a video:
 `category` drives the filter chips at the top of the Videos section. Cards
 appear immediately — no rebuild needed, just reload.
 
-Add a blog entry to the `posts` array the same way (`title`, `excerpt`,
-`date`, `tag`, `url`).
+### Thumbnails
+
+The thumbnails in `assets/img/thumbs/` were **downloaded from Facebook** and are
+committed to the repo. Facebook's CDN links are signed and expire within days, so
+hotlinking them would have left broken cards within a week — storing them locally
+keeps the site stable.
+
+Two of the ten videos have no usable Facebook thumbnail:
+
+| Video | Why | What is shown |
+| --- | --- | --- |
+| 58th Regular Session | Facebook's auto-frame is a **solid black** still | His council-office photo, tagged `still: true` (shown with a small **PHOTO** badge) |
+| 57th Regular Session | The thumbnail URL returns **403** | The branded gradient tile |
+| Small business owners | Video page is **login-walled** | The branded gradient tile |
+
+If you capture your own screenshots, drop them in `assets/img/thumbs/` and add
+the `thumb` path to those three entries in `data.js`.
+
+`still: true` is only needed when the image is a photograph rather than a real
+frame from the clip — it renders a small "PHOTO" badge so nothing is passed off
+as a video still.
 
 ---
 
@@ -92,10 +114,12 @@ Add a blog entry to the `posts` array the same way (`title`, `excerpt`,
 
 ## Images
 
-Photographs are hot-linked from the original WordPress uploads, so there are no
-image files in this repository and nothing to re-upload. If a host blocks hot
-linking, download the files into `assets/img/` and swap the `src` values in
-`index.html`.
+Editorial photographs (portraits, heritage) are hot-linked from the original
+WordPress uploads, so there is nothing to re-upload for those. Video thumbnails
+are the exception — see [Thumbnails](#thumbnails) above.
+
+If a host ever blocks hotlinking, download the WordPress images into
+`assets/img/` and swap the `src` values in `index.html`.
 
 ## Deploying
 

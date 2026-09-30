@@ -33,10 +33,15 @@
     var labels = { council: "Council", program: "Programme", field: "Field" };
 
     host.innerHTML = DATA.videos.map(function (v, i) {
+      var thumb = v.thumb
+        ? '<img class="vcard-img" src="' + esc(v.thumb) + '" alt="" loading="lazy" decoding="async" />'
+        : "";
       return '' +
       '<article class="vcard reveal" data-category="' + esc(v.category) + '" data-index="' + i + '">' +
         '<span class="vcard-thumb">' +
+          thumb +
           '<span class="vcard-cat" data-cat="' + esc(v.category) + '">' + esc(labels[v.category] || v.category) + '</span>' +
+          (v.still ? '<span class="vcard-still">Photo</span>' : "") +
           '<span class="vcard-play">' + PLAY_ICON + '</span>' +
           (v.duration && v.duration !== "—" ? '<span class="vcard-time">' + esc(v.duration) + '</span>' : "") +
         '</span>' +
@@ -349,16 +354,22 @@
 
   /* ============================================================ 7 · misc */
   function initMisc() {
-    // Year stamp
     var y = $("[data-year]");
     if (y) y.textContent = new Date().getFullYear();
 
-    // Fade in remote images if they fail to load (offline / blocked)
+    // If a photo fails to load, drop it so the branded gradient tile shows
+    // through cleanly instead of a broken-image icon.
     document.addEventListener(
       "error",
       function (e) {
         var t = e.target;
-        if (t && t.tagName === "IMG" && !t.dataset.failed) {
+        if (!t || t.tagName !== "IMG") return;
+
+        if (t.classList.contains("vcard-img")) {
+          t.remove();
+          return;
+        }
+        if (!t.dataset.failed) {
           t.dataset.failed = "1";
           t.style.opacity = "0.25";
           t.style.filter = "grayscale(1)";

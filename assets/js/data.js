@@ -7,6 +7,11 @@
 
 /* ---------------------------------------------------------------- videos --- */
 /* Links are taken from the official Facebook page (facebook.com/dino2022).      */
+/*                                                                             */
+/* `thumb`  optional. Path to a local image in assets/img/thumbs/.             */
+/* `still`  set true if the image is a photo rather than a real video frame —   */
+/*          Facebook's auto-thumbnail for that clip is a solid black frame.     */
+/* Omit both to fall back to the branded gradient tile.                         */
 window.SITE_DATA = {
   videos: [
     {
@@ -17,6 +22,8 @@ window.SITE_DATA = {
       duration: "0:40",
       views: "453",
       when: "Most recent",
+      thumb: "assets/img/thumbs/still-council-office.jpg",
+      still: true,
       url: "https://www.facebook.com/dino2022/videos/58th-regular-session-of-the-10th-sangguniang-panlungsod-of-victorias-city/1392222609198399/"
     },
     {
@@ -27,6 +34,7 @@ window.SITE_DATA = {
       duration: "1:54",
       views: "2.3K",
       when: "3 days ago",
+      thumb: "assets/img/thumbs/1818005389619685.jpg",
       url: "https://www.facebook.com/dino2022/videos/66th-botika-sang-masa-sa-purok-8-barrio-daan-banwa-brgy-9-victorias-city/1818005389619685/"
     },
     {
@@ -37,6 +45,7 @@ window.SITE_DATA = {
       duration: "3:35",
       views: "1.5K",
       when: "3 days ago",
+      thumb: "assets/img/thumbs/1379216911050937.jpg",
       url: "https://www.facebook.com/dino2022/videos/66th-botika-sang-masa-sa-purok-8-barrio-daan-banuasalamat-sa-mga-naka-agum-sang-/1379216911050937/"
     },
     {
@@ -47,6 +56,7 @@ window.SITE_DATA = {
       duration: "1:14",
       views: "1.5K",
       when: "6 days ago",
+      thumb: "assets/img/thumbs/1823982645281686.jpg",
       url: "https://www.facebook.com/dino2022/videos/five-years-of-sharing-caring-and-giving-back-%EF%B8%8Ffor-the-5th-consecutive-year-since/1823982645281686/"
     },
     {
@@ -57,6 +67,7 @@ window.SITE_DATA = {
       duration: "1:15",
       views: "515",
       when: "6 days ago",
+      thumb: "assets/img/thumbs/2124817634786544.jpg",
       url: "https://www.facebook.com/dino2022/videos/thank-you-for-the-chance-to-serve-our-dearest-city-employees-thru-the-botika-san/2124817634786544/"
     },
     {
@@ -67,6 +78,7 @@ window.SITE_DATA = {
       duration: "7:11",
       views: "806",
       when: "A week ago",
+      thumb: "assets/img/thumbs/1776255363423731.jpg",
       url: "https://www.facebook.com/dino2022/videos/negros-trade-fair-2026-butlak-negros-aton-kilalahonparientesangmasa-dinoacuna/1776255363423731/"
     },
     {
@@ -77,6 +89,7 @@ window.SITE_DATA = {
       duration: "5:17",
       views: "1.7K",
       when: "A week ago",
+      thumb: "assets/img/thumbs/4042188909417828.jpg",
       url: "https://www.facebook.com/dino2022/videos/clark-freeport-zone-sa-pampanga-aton-kilalahonparientesangmasa-dinoacuna/4042188909417828/"
     },
     {
@@ -87,6 +100,7 @@ window.SITE_DATA = {
       duration: "5:56",
       views: "1K",
       when: "A week ago",
+      thumb: "assets/img/thumbs/2871241719914319.jpg",
       url: "https://www.facebook.com/dino2022/videos/mactan-shrine-isa-ka-duog-nga-tanda-sang-una-nga-pakig-bato-sang-mga-pilipino-ko/2871241719914319/"
     },
     {
