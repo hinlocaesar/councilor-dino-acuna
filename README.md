@@ -1,9 +1,8 @@
-# Councilor Dino Acuña — Static Site
+# Councilor Dino Acuña
 
-A hand-built static website for **Councilor Dino Acuña** of the City of Victorias,
-Negros Occidental, Philippines.
-
-Content is drawn from the author's public blog and official Facebook page.
+A site for **Councilor Dino Acuña** of the City of Victorias, Negros Occidental,
+Philippines. Content is drawn from the author's public blog and official Facebook
+page.
 
 | Source | URL |
 | --- | --- |
@@ -12,7 +11,23 @@ Content is drawn from the author's public blog and official Facebook page.
 | Facebook videos | https://www.facebook.com/dino2022/videos |
 | X / Twitter | https://twitter.com/dinoacuna |
 
+## Two versions
+
+| | Static | Umbraco |
+| --- | --- | --- |
+| Stack | HTML / CSS / vanilla JS | ASP.NET Core 10 + Umbraco 17 LTS |
+| Content lives in | `assets/js/data.js` | the Umbraco backoffice |
+| Run it | `npm run dev` → **:4321** | `dotnet run` → **:5001** |
+| Hosting | any static host | needs .NET |
+| Write-up | this file | **[cms/README.md](cms/README.md)** |
+
+The design is identical between them — the Umbraco build reuses the same CSS
+byte-for-byte. Pick the static one for simplicity, or Umbraco if you want to edit
+content through a CMS.
+
 ---
+
+# Static version
 
 ## Run it locally
 
@@ -48,6 +63,7 @@ You can also just open `index.html` straight off the disk.
 │  └─ js/
 │     ├─ data.js              # ← EDIT THIS to add videos / blog posts
 │     └─ main.js              # behaviour (nav, reveal, filter, modal)
+├─ cms/                       # the Umbraco build — see cms/README.md
 ├─ package.json               # dev server only
 └─ .gitignore
 ```
