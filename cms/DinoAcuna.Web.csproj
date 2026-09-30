@@ -44,6 +44,15 @@
     <Content Update="appsettings.Local.json" CopyToPublishDirectory="Never" />
   </ItemGroup>
 
+  <ItemGroup>
+    <!--
+      The WordPress export is read at runtime from the project root, but copying
+      it next to the binaries makes the app work from `dotnet publish` output
+      too, without a path that only resolves in the source tree.
+    -->
+    <None Update="Seeding/wordpress-posts.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
   <PropertyGroup>
     <!-- Compile Razor at build time so view errors surface in `dotnet build`
          rather than only at request time. -->

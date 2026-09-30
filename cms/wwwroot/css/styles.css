@@ -1143,6 +1143,147 @@ strong { font-weight: 600; color: var(--cream); }
   border-radius: var(--radius);
 }
 
+.journal-count {
+  text-align: center;
+  margin-top: 2.5rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted-dim);
+}
+
+/* ------------------------------------------------- imported blog post page */
+.post-full { padding-block: clamp(6rem, 12vh, 8rem) clamp(3rem, 8vh, 5rem); }
+.post-full-inner { max-width: 760px; }
+
+.backlink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 24px;
+  font-size: 0.84rem;
+  font-weight: 550;
+  color: var(--gold-300);
+  margin-bottom: 2rem;
+}
+.backlink svg { width: 16px; height: 16px; transform: rotate(180deg); }
+.backlink:hover { color: var(--gold-100); }
+
+.post-full-head { margin-bottom: 2rem; }
+.post-full-meta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.9rem;
+  border-bottom: 1px solid var(--line-soft);
+}
+.post-full h1 {
+  font-size: clamp(1.9rem, 5.2vw, 3rem);
+  font-weight: 400;
+  line-height: 1.08;
+  margin: 0;
+}
+
+.post-full-hero {
+  margin: 0 0 2.4rem;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--line-soft);
+  background: var(--ink-700);
+}
+.post-full-hero img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  filter: saturate(0.9) brightness(0.95);
+}
+
+.post-full-foot {
+  margin-top: 3.5rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--line-soft);
+}
+.post-full-foot p { color: var(--muted); font-size: 0.88rem; margin-bottom: 1.4rem; }
+.post-full-foot a { color: var(--gold-300); text-decoration: underline; text-underline-offset: 3px; }
+
+/* ------------------------------------------------- prose (imported HTML) */
+.prose { color: var(--cream-dim); font-size: 1.03rem; line-height: 1.78; }
+.prose > * + * { margin-top: 1.15em; }
+.prose h1, .prose h2, .prose h3, .prose h4 {
+  color: var(--cream);
+  margin-top: 2em;
+  margin-bottom: 0.6em;
+  font-weight: 500;
+}
+.prose h2 { font-size: clamp(1.4rem, 3vw, 1.9rem); }
+.prose h3 { font-size: clamp(1.2rem, 2.4vw, 1.5rem); }
+.prose strong { color: var(--gold-100); }
+.prose a { color: var(--gold-300); text-decoration: underline; text-underline-offset: 3px; }
+.prose a:hover { color: var(--gold-100); }
+.prose em { color: var(--cream); }
+.prose ul, .prose ol { padding-left: 1.4em; margin-block: 1.15em; }
+.prose li { margin-bottom: 0.5em; }
+.prose li::marker { color: var(--gold-500); }
+.prose blockquote {
+  margin: 1.8em 0;
+  padding: 0.4em 0 0.4em 1.3rem;
+  border-left: 2px solid var(--gold-700);
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-style: italic;
+  color: var(--gold-100);
+}
+.prose img {
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-sm);
+  margin-block: 1.4em;
+  background: var(--ink-700);
+}
+.prose figure { margin: 1.8em 0; }
+.prose figure img { margin: 0; }
+.prose figcaption {
+  font-size: 0.78rem;
+  color: var(--muted-dim);
+  text-align: center;
+  margin-top: 0.6em;
+}
+.prose hr { border: 0; border-top: 1px solid var(--line-soft); margin-block: 2.5em; }
+.prose code {
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  font-size: 0.9em;
+  background: var(--ink-700);
+  padding: 0.15em 0.4em;
+  border-radius: 5px;
+}
+.prose pre {
+  background: var(--ink-850);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius-sm);
+  padding: 1rem 1.2rem;
+  overflow-x: auto;
+}
+.prose pre code { background: none; padding: 0; }
+.prose table { width: 100%; border-collapse: collapse; margin-block: 1.5em; font-size: 0.92em; }
+.prose th, .prose td { border: 1px solid var(--line-soft); padding: 0.55em 0.8em; text-align: left; }
+.prose th { color: var(--gold-100); font-weight: 600; background: rgba(255,255,255,0.03); }
+
+/* WordPress gallery blocks arrive as nested figures in a flex wrapper */
+.prose .wp-block-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.6rem;
+  margin-block: 1.8em;
+}
+.prose .wp-block-gallery figure { margin: 0; }
+.prose .wp-block-image { margin: 0; }
+
+/* the WP editor leaves light backgrounds and dark inline colours behind */
+.prose .has-background,
+.prose [style*="background-color"] { background-color: transparent !important; }
+.prose [style*="color:#"] { color: var(--cream-dim) !important; }
+
 /* ------------------------------------------------------------------- posts */
 .posts {
   display: grid;

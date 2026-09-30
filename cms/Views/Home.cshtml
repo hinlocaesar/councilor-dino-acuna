@@ -445,17 +445,25 @@
                 var pDate = p.Value<string>("date");
                 var pTitle = p.Value<string>("title");
                 var pExcerpt = p.Value<string>("excerpt");
+                var slug = p.Value<string>("wordpressSlug");
+                var hasBody = !string.IsNullOrWhiteSpace(p.Value<string>("body"));
+                var href = hasBody ? "/post/" + slug : url;
+                var external = !hasBody;
                 <article class="post reveal">
                     <div class="post-top">
                         <span class="post-tag">@pTag</span>
                         <time class="post-date">@pDate</time>
                     </div>
-                    <h3><a href="@url" target="_blank" rel="noopener">@pTitle</a></h3>
+                    <h3><a href="@href" target="@(external ? "_blank" : "_self")" rel="@(external ? "noopener" : null)">@pTitle</a></h3>
                     <p>@pExcerpt</p>
-                    <a class="link" href="@url" target="_blank" rel="noopener">Read the entry @Html.Raw(arrow)</a>
+                    <a class="link" href="@href" target="@(external ? "_blank" : "_self")" rel="@(external ? "noopener" : null)">
+                        @(hasBody ? "Read the post" : "Read on the blog") @Html.Raw(arrow)
+                    </a>
                 </article>
             }
         </div>
+
+        <p class="journal-count reveal">@posts.Count entries · 2010 to 2025 · originally published at dinoacuna.wordpress.com</p>
 
         <div class="center reveal">
             <a class="btn btn-ghost" href="https://dinoacuna.wordpress.com/" target="_blank" rel="noopener">

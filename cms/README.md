@@ -63,12 +63,60 @@ dotnet run --project cms
 | --- | --- |
 | **Home** (`home`) | The single page. Root-level. |
 | **Video** (`video`) | One gallery card. |
-| **Blog post** (`blogPost`) | One journal card. |
+| **Blog post** (`blogPost`) | One journal card + a full article at `/post/{slug}`. |
 | **Timeline milestone** (`milestone`) | One entry in the Record section. |
 
 Ordering everywhere uses a `sortKey` text property, so you can re-order from the
 backoffice by typing `01`, `02`, `03` — no need to fiddle with Umbraco's
 built-in sort.
+
+## Importing the blog from WordPress
+
+All **40 posts** from dinoacuna.wordpress.com (July 2010 – March 2025) are
+imported with their full article bodies — roughly 560,000 characters of HTML,
+including the photographs and WordPress gallery blocks.
+
+```bash
+node tools/export-wordpress.mjs      # re-fetch via the WordPress.com REST API
+```
+
+That writes `cms/Seeding/wordpress-posts.json`, which the seeder reads on the
+next fresh install. Per post it stores the title (verbatim, author's own
+casing), date, canonical URL, a plain-text excerpt, the cleaned HTML body, the
+first inline image, all WordPress tags, and a short `cardTag` label.
+
+The exporter strips the WordPress comment form, share buttons and
+related-posts chrome, decodes HTML entities in titles, and trims a trailing
+colon.
+
+### Re-importing
+
+The seeder only runs when the content root is empty, so refresh the import with:
+
+```powershell
+# stop the app, then
+Remove-Item cms\umbraco\Data\Umbraco.sqlite.db* -Force
+dotnet run --project cms
+```
+
+**This wipes the backoffice**, including any edits made since the first seed. If
+you have edited content, re-seed selectively instead, or add just the new posts
+to the JSON by hand.
+
+### The `/post/{slug}` route
+
+Journal cards link to `/post/{slug}` when a body was imported, and fall back to
+the original WordPress URL otherwise. `HomeController.Post` matches the slug
+against the `wordpressSlug` property and returns 404 when there is no match.
+
+### Card labels
+
+WordPress tags are too noisy to show directly — they include agency names
+("BSP", "CDC"), people's names ("Merly Fortu") and whole sentences ("33 miners
+rescued in Chile"). `pickTag()` in the exporter maps them to a closed set of
+eight: **Politics, Heritage, Tribute, Society, Economy, World, Environment,
+Journal**. The seeder falls back to the same logic in C# if `cardTag` is
+missing.
 
 ## Editing content
 
@@ -107,11 +155,14 @@ Two of the ten videos have no usable Facebook thumbnail:
 
 ```
 cms/
-├─ Controllers/HomeController.cs   # serves the single page at /
-├─ Seeding/ContentSeeder.cs        # document types + all seed content
+├─ Controllers/HomeController.cs   # "/" and "/post/{slug}"
+├─ Seeding/
+│  ├─ ContentSeeder.cs            # document types + all seed content
+│  └─ wordpress-posts.json        # the imported blog (40 posts)
 ├─ Views/
 │  ├─ _Layout.cshtml              # <head>, header, footer, video modal
-│  ├─ Home.cshtml                 # the whole page, rendered from Umbraco
+│  ├─ Home.cshtml                 # the single page, rendered from Umbraco
+│  ├─ Post.cshtml                 # a full imported article
 │  └─ _ViewImports.cshtml
 ├─ wwwroot/
 │  ├─ css/styles.css              # byte-identical to assets/css
@@ -135,9 +186,10 @@ stores thumbnails as filenames in `wwwroot` instead of as media items. If you
 want them in the library, upload them once through the backoffice and swap the
 `thumbFile` property for a media picker.
 
-**One-page site.** There is a single route (`/`) plus the backoffice. If you add
-more Umbraco pages later, give the doc type a template and let normal Umbraco
-routing handle them — `HomeController` only intercepts the root path.
+**One-page site, plus article pages.** `/` serves the single page and
+`/post/{slug}` serves each imported blog post. `HomeController` intercepts only
+those two routes, so adding more Umbraco pages later still works through normal
+Umbraco routing.
 
 **`RazorCompileOnBuild` is on** so view errors surface at `dotnet build` rather
 than as a 500 at request time. The Umbraco template ships with it off; it also

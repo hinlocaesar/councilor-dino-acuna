@@ -8,6 +8,8 @@
 //  To re-seed from scratch, delete umbraco/Data/ and restart.
 // =============================================================================
 
+using System.Text.Json;
+using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -79,6 +81,24 @@ public static class ContentSeeder
             home.SetValue("subtitle", "City Councilor · Victorias City");
             contentService.SaveAndPublish(home, InvariantCultures, UserId);
 
+            // ---- blog posts: prefer the WordPress export, fall back to the
+            //      hand-curated list if the JSON is missing.
+            var posts = LoadWordPressPosts();
+            if (posts.Count > 0)
+            {
+                logger.LogInformation("Imported {0} blog posts from the WordPress export.", posts.Count);
+            }
+            else
+            {
+                logger.LogWarning(
+                    "WordPress export not found - falling back to the built-in post list. " +
+                    "Run: node tools/export-wordpress.mjs");
+                posts = FallbackPosts
+                    .Select(p => new PostEntry(
+                        p.SortKey, p.Title, p.Excerpt, p.Tag, p.Date, p.Url, "", "", ""))
+                    .ToList();
+            }
+
             int n = 0;
             n += Seed(contentService, Video, home, UserId, Videos.Select(v => new[]
             {
@@ -94,14 +114,17 @@ public static class ContentSeeder
                 ("url", v.Url)
             }.ToArray()));
 
-            n += Seed(contentService, BlogPost, home, UserId, Posts.Select(p => new[]
+            n += Seed(contentService, BlogPost, home, UserId, posts.Select(p => new[]
             {
                 ("sortKey", (object?)p.SortKey),
                 ("title", p.Title),
                 ("excerpt", p.Excerpt),
                 ("tag", p.Tag),
                 ("date", p.Date),
-                ("url", p.Url)
+                ("url", p.Url),
+                ("body", p.Body),
+                ("featuredImage", p.FeaturedImage),
+                ("wordpressSlug", p.Slug)
             }.ToArray()));
 
             n += Seed(contentService, Milestone, home, UserId, Milestones.Select(m => new[]
@@ -132,6 +155,123 @@ public static class ContentSeeder
         }
         return count;
     }
+
+    /// <summary>A blog entry, either from the WordPress export or the fallback list.</summary>
+    private sealed record PostEntry(
+        string SortKey, string Title, string Excerpt, string Tag, string Date, string Url,
+        string Body, string FeaturedImage, string Slug);
+
+    /// <summary>
+    /// Reads cms/Seeding/wordpress-posts.json, produced by
+    /// tools/export-wordpress.mjs. Returns an empty list if it is absent, so a
+    /// fresh clone without the export still boots.
+    /// </summary>
+    private static List<PostEntry> LoadWordPressPosts()
+    {
+        // Prefer the copy next to the binaries (works from `dotnet publish`),
+        // then fall back to the project root (works when running from source).
+        var candidates = new[]
+        {
+            Path.Combine(AppContext.BaseDirectory, "Seeding", "wordpress-posts.json"),
+            Path.GetFullPath(Path.Combine(
+                AppContext.BaseDirectory, "..", "..", "..", "..", "Seeding", "wordpress-posts.json")),
+        };
+
+        var path = candidates.FirstOrDefault(System.IO.File.Exists);
+        if (path is null) return new List<PostEntry>();
+
+        try
+        {
+            using var doc = JsonDocument.Parse(System.IO.File.ReadAllText(path));
+            var list = new List<PostEntry>();
+
+            foreach (var el in doc.RootElement.EnumerateArray())
+            {
+                string S(string name) =>
+                    el.TryGetProperty(name, out var v) && v.ValueKind == JsonValueKind.String
+                        ? v.GetString() ?? ""
+                        : "";
+
+                var tags = el.TryGetProperty("tags", out var t) && t.ValueKind == JsonValueKind.Array
+                    ? t.EnumerateArray().Select(x => x.GetString() ?? "").Where(x => x.Length > 0).ToArray()
+                    : Array.Empty<string>();
+
+                var title = S("title");
+                var date = DateTime.TryParse(S("date"), null,
+                        System.Globalization.DateTimeStyles.AdjustToUniversal |
+                        System.Globalization.DateTimeStyles.AssumeUniversal,
+                        out var dt)
+                    ? dt.ToString("dd MMM yyyy")
+                    : S("date");
+
+                list.Add(new PostEntry(
+                    SortKey: list.Count.ToString("D2"),
+                    Title: title,
+                    Excerpt: S("excerpt"),
+                    Tag: S("cardTag") is { Length: > 0 } ct ? ct : CardTag(tags, title),
+                    Date: date,
+                    Url: S("url"),
+                    Body: S("body"),
+                    FeaturedImage: S("featuredImage"),
+                    Slug: S("slug")));
+            }
+
+            return list;
+        }
+        catch (Exception ex)
+        {
+            Console.Error.WriteLine($"Could not read {path}: {ex.Message}");
+            return new List<PostEntry>();
+        }
+    }
+
+    /// <summary>
+    /// Mirrors pickTag() in tools/export-wordpress.mjs, so labels stay
+    /// consistent even for exports made before that field existed.
+    /// </summary>
+    private static string CardTag(string[] tags, string title)
+    {
+        bool Has(string pat) => tags.Any(t => Regex.IsMatch(t, pat, RegexOptions.IgnoreCase));
+        bool Title(string pat) => Regex.IsMatch(title, pat, RegexOptions.IgnoreCase);
+
+        if (Title(@"\b(gratitude|thank\s+you|sympath|rest\s+well|sleep\s+well|good\s+night|farewell|remembering|condolen|tribute)\b")
+            || Title(@"\b(rosalina|lola|hautea|bantug)\b"))
+            return "Tribute";
+        if (Has("environment|climate|sustainab|forest|renewab|reforest")) return "Environment";
+        if (Has("women|gender|feminis")) return "Women";
+        if (Has("heritage|history|cultur|kadalag|panaad|ancient|annivers|foran")) return "Heritage";
+        if (Has("mine|chile|earthquake|disaster|tsunami|hostage")) return "World";
+        if (Has(@"crime|criminal|police|AFP|human\s+rights|torture|kidnap")) return "Society";
+        if (Has("education|school|teacher|tesda|skills|health")) return "Society";
+        if (Has("OFW|remit|econom|sugar|business|pagcor|trade|agricultur|rice|food|budget")) return "Economy";
+        if (Has("politic|senate|congress|election|comelec|president|p-noy|noynoy|cory|aquino|palace|legislat|ombudsman")) return "Politics";
+
+        if (Title(@"hostage|earthquake|disaster|miners|chile")) return "World";
+        if (Title(@"gratitude|thank|sympath|rest\s+well|sleep\s+well|good\s+night|critic|mourn")) return "Tribute";
+        if (Title(@"essay|generation|world!|hello\s+world")) return "Essay";
+        if (Title(@"president|senat|congress|elect|ombudsman|palace")) return "Politics";
+        if (Title(@"police|crime|AFP|justice|court|massacre|killed")) return "Society";
+
+        var ok = tags
+            .Where(t => t.Length > 2 && t.Length <= 18
+                        && !char.IsDigit(t[0])
+                        && t.Split(' ').Length <= 2
+                        && !StopWords.Contains(t))   // "Rubout", "Journal", "BSP"…
+            .OrderBy(t => t.Length)
+            .FirstOrDefault();
+
+        return ok is null ? "Journal" : char.ToUpperInvariant(ok[0]) + ok[1..];
+    }
+
+    /// <summary>
+    /// Tags that read as noise on a card. "BSP" and "Rubout" are WordPress tags
+    /// the author used to name an organisation, not a subject.
+    /// </summary>
+    private static readonly HashSet<string> StopWords = new(StringComparer.OrdinalIgnoreCase)
+    {
+        "dino acuna", "acuna", "journal", "news", "featured", "blog", "posts",
+        "bsp", "rubout", "davao", "blogroll", "spam",
+    };
 
     // ------------------------------------------------------ doc type setup
     private static void CreateContentTypes(
@@ -192,6 +332,9 @@ public static class ContentSeeder
         Prop(post, T(Constants.PropertyEditors.Aliases.TextBox), "tag", "Tag");
         Prop(post, T(Constants.PropertyEditors.Aliases.TextBox), "date", "Date");
         Prop(post, T(Constants.PropertyEditors.Aliases.TextBox), "url", "Blog URL");
+        Prop(post, T(Constants.PropertyEditors.Aliases.RichText), "body", "Full post (imported from WordPress)");
+        Prop(post, T(Constants.PropertyEditors.Aliases.TextBox), "featuredImage", "Featured image URL");
+        Prop(post, T(Constants.PropertyEditors.Aliases.TextBox), "wordpressSlug", "WordPress slug");
         svc.Save(post, UserId);
 
         // ---- milestone
@@ -265,7 +408,11 @@ public static class ContentSeeder
 
     private sealed record PostSeed(string SortKey, string Title, string Excerpt, string Tag, string Date, string Url);
 
-    private static readonly PostSeed[] Posts =
+    /// <summary>
+    /// Used only when wordpress-posts.json is missing. Once the export exists
+    /// these are never read.
+    /// </summary>
+    private static readonly PostSeed[] FallbackPosts =
     {
         new("01", "Supporting Our Women Sector",
             "Educational, entrepreneurial and environmental benchmarking in Kabankalan City, with the women leaders of the province — and a reminder that empowerment, not assistance, is what moves a community forward.",

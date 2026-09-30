@@ -1,0 +1,49 @@
+@using Umbraco.Cms.Core.Models.PublishedContent
+@{
+    Layout = "_Layout.cshtml";
+
+    var root = (IPublishedContent)Model;
+    var title = root.Value<string>("title");
+    var tag = root.Value<string>("tag");
+    var date = root.Value<string>("date");
+    var body = root.Value<string>("body");
+    var originalUrl = root.Value<string>("url");
+    var featured = root.Value<string>("featuredImage");
+    var arrow = "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M5 12h14m-6-6 6 6-6 6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>";
+}
+
+<article class="post-full">
+    <div class="shell post-full-inner">
+
+        <a class="backlink reveal" href="/#journal">@Html.Raw(arrow) All entries</a>
+
+        <header class="post-full-head reveal" data-delay="1">
+            <div class="post-full-meta">
+                <span class="post-tag">@tag</span>
+                <time class="post-date">@date</time>
+            </div>
+            <h1>@title</h1>
+        </header>
+
+        @if (!string.IsNullOrWhiteSpace(featured))
+        {
+            <figure class="post-full-hero reveal" data-delay="2">
+                <img src="@featured" alt="" loading="lazy" decoding="async" />
+            </figure>
+        }
+
+        <div class="prose reveal" data-delay="3">
+            @Html.Raw(body)
+        </div>
+
+        <footer class="post-full-foot reveal" data-delay="4">
+            <p>
+                Originally published on
+                <a href="@originalUrl" target="_blank" rel="noopener">dinoacuna.wordpress.com</a>.
+                Imported into this site on @(DateTime.Now.ToString("d MMMM yyyy")).
+            </p>
+            <a class="btn btn-ghost" href="/#journal">@Html.Raw(arrow) Back to the journal</a>
+        </footer>
+
+    </div>
+</article>

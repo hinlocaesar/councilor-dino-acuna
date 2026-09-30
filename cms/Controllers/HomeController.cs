@@ -10,6 +10,7 @@ namespace DinoAcuna.Web.Controllers;
 public sealed class HomeController : UmbracoController
 {
     private const string HomeAlias = "home";
+    private const string PostAlias = "blogPost";
 
     private readonly IPublishedContentQuery _contentQuery;
 
@@ -35,5 +36,27 @@ public sealed class HomeController : UmbracoController
 
         return View("Home", home);
     }
-}
 
+    /// <summary>
+    /// A single imported blog post, addressed by its WordPress slug, e.g.
+    /// /post/i-love-my-generation. The body was imported from the
+    /// WordPress.com REST API by tools/export-wordpress.mjs.
+    /// </summary>
+    [HttpGet("post/{slug}")]
+    public IActionResult Post(string slug)
+    {
+        slug = (slug ?? "").Trim();
+        if (slug.Length == 0) return NotFound();
+
+        var post = _contentQuery
+            .ContentAtRoot()
+            .SelectMany(c => c.DescendantsOrSelf())
+            .FirstOrDefault(c =>
+                c.ContentType.Alias == PostAlias &&
+                string.Equals(c.Value<string>("wordpressSlug"), slug, StringComparison.OrdinalIgnoreCase));
+
+        if (post is null) return NotFound();
+
+        return View("Post", post);
+    }
+}
