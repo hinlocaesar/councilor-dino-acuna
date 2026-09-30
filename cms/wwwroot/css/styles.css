@@ -894,6 +894,10 @@ strong { font-weight: 600; color: var(--cream); }
   margin-bottom: 1.1rem;
 }
 
+/* An element carrying [hidden] must never be forced visible by a display rule
+   above. Keep this early so .link { display:inline-flex } can't override it. */
+[hidden] { display: none !important; }
+
 .link {
   display: inline-flex;
   align-items: center;
@@ -903,6 +907,9 @@ strong { font-weight: 600; color: var(--cream); }
   font-weight: 550;
   color: var(--gold-300);
   width: fit-content;
+  /* keep the tap target at least 24px tall on touch screens */
+  min-height: 24px;
+  padding-block: 0.15rem;
 }
 .link svg { width: 16px; height: 16px; transition: transform 0.3s var(--ease); }
 .link:hover { color: var(--gold-100); }
@@ -1178,6 +1185,12 @@ strong { font-weight: 600; color: var(--cream); }
   margin-bottom: 0.5em;
   transition: color 0.3s var(--ease);
 }
+/* the heading is the link, so the anchor itself needs the 24px tap target */
+.post h3 a {
+  display: inline-block;
+  min-height: 24px;
+  padding-block: 0.1rem;
+}
 .post:hover h3 { color: var(--gold-100); }
 .post p { margin: 0 0 1.15rem; font-size: 0.88rem; line-height: 1.62; color: var(--muted); }
 .post .link { margin-top: auto; }
@@ -1250,6 +1263,9 @@ strong { font-weight: 600; color: var(--cream); }
   font-size: 0.85rem;
   color: var(--muted);
   transition: color 0.25s var(--ease);
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
 }
 .footer-nav a:hover { color: var(--gold-300); }
 .footer-note {
@@ -1345,6 +1361,9 @@ strong { font-weight: 600; color: var(--cream); }
 .modal-meta p { color: var(--muted); font-size: 0.9rem; margin-bottom: 0.9rem; }
 
 /* --------------------------------------------------------------- reveals */
+/* Content starts hidden and is revealed by JS. If scripting is unavailable
+   that would leave the page blank, so a <noscript> override in the layout
+   forces everything visible. */
 .reveal {
   opacity: 0;
   transform: translateY(26px);

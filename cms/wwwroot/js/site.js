@@ -227,6 +227,7 @@
       titleEl.textContent = title || "";
       subEl.textContent = caption || "";
       linkEl.href = url;
+      linkEl.removeAttribute("hidden");
 
       frame.innerHTML =
         '<div class="modal-loading">' +

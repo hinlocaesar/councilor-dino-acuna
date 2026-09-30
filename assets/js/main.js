@@ -54,7 +54,11 @@
             (v.when ? esc(v.when) : "") +
           '</span>' +
         '</div>' +
-        '<button class="vcard-hit" type="button" data-index="' + i + '" ' +
+        '<button class="vcard-hit" type="button" ' +
+          'data-url="' + esc(v.url) + '" ' +
+          'data-title="' + esc(v.title) + '" ' +
+          'data-caption="' + esc(v.caption || "") + '" ' +
+          'data-index="' + i + '" ' +
           'aria-label="Play video: ' + esc(v.title) + '"></button>' +
       '</article>';
     }).join("");
@@ -295,6 +299,7 @@
       titleEl.textContent = video.title;
       subEl.textContent = video.caption || "";
       linkEl.href = video.url;
+      linkEl.removeAttribute("hidden");
 
       frame.innerHTML =
         '<div class="modal-loading">' +
@@ -337,11 +342,19 @@
       if (lastFocus && lastFocus.focus) lastFocus.focus();
     }
 
+    // Read everything from the card's own data-* attributes, so the markup
+    // stays self-describing and works even if data.js is out of date.
     document.addEventListener("click", function (e) {
       var hit = e.target.closest(".vcard-hit");
       if (!hit) return;
-      var idx = parseInt(hit.getAttribute("data-index"), 10);
-      if (DATA.videos[idx]) { e.preventDefault(); open(DATA.videos[idx]); }
+      var url = hit.getAttribute("data-url");
+      if (!url) return;
+      e.preventDefault();
+      open({
+        url: url,
+        title: hit.getAttribute("data-title"),
+        caption: hit.getAttribute("data-caption") || ""
+      });
     });
 
     $$("[data-modal-close]", modal).forEach(function (el) {

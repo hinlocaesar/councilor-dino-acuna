@@ -6,3 +6,6 @@ Thumbs.db
 .env
 .env.local
 *.log
+
+# audit output — regenerate with: node tools/audit.mjs <url>
+tools/

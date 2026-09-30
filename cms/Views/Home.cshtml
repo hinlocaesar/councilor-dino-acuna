@@ -61,7 +61,7 @@
         </p>
 
         <div class="hero-actions reveal" data-delay="3">
-            <a class="btn btn-primary" href="#record">View the record @arrow</a>
+            <a class="btn btn-primary" href="#record">View the record @Html.Raw(arrow)</a>
             <a class="btn btn-ghost" href="#videos">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5-11-6.5Z" fill="currentColor"/></svg>
                 Watch the videos
@@ -362,7 +362,7 @@
                 <button class="chip" type="button" role="tab" aria-selected="false" data-filter="field">Field &amp; travel</button>
             </div>
             <a class="link link-strong" href="https://www.facebook.com/dino2022/videos" target="_blank" rel="noopener">
-                Open the full video library @arrow
+                Open the full video library @Html.Raw(arrow)
             </a>
         </div>
 
@@ -452,7 +452,7 @@
                     </div>
                     <h3><a href="@url" target="_blank" rel="noopener">@pTitle</a></h3>
                     <p>@pExcerpt</p>
-                    <a class="link" href="@url" target="_blank" rel="noopener">Read the entry @arrow</a>
+                    <a class="link" href="@url" target="_blank" rel="noopener">Read the entry @Html.Raw(arrow)</a>
                 </article>
             }
         </div>
