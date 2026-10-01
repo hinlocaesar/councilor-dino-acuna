@@ -171,7 +171,7 @@ window.SITE_DATA = {
     {
       sortKey: "619",
       title: "I Love My Generation",
-      excerpt: "Traditional Baby Crib made of hardwood To Pinoys and Pinays born in the 40&#8217;s, 50&#8217;s, 60&#8217;s & 70&#8217;s!",
+      excerpt: "Traditional Baby Crib made of hardwood To Pinoys and Pinays born in the 40’s, 50’s, 60’s & 70’s!",
       tag: "Economy",
       date: "29 Oct 2011",
       url: "https://dinoacuna.wordpress.com/2011/10/29/i-love-my-generation/",
@@ -261,7 +261,7 @@ window.SITE_DATA = {
     {
       sortKey: "437",
       title: "OFW Remittances:4th largest in the World",
-      excerpt: "Filipino migrant workers remained one of the world&#8217;s biggest money senders to the home country. Being the 4th in the world makes a lot of difference to the economy of the Philippines.",
+      excerpt: "Filipino migrant workers remained one of the world’s biggest money senders to the home country. Being the 4th in the world makes a lot of difference to the economy of the Philippines.",
       tag: "Economy",
       date: "11 Dec 2010",
       url: "https://dinoacuna.wordpress.com/2010/12/11/filipino-remittances-is-4th-largest-in-the-world/",
@@ -341,7 +341,7 @@ window.SITE_DATA = {
     {
       sortKey: "326",
       title: "4 Reasons Why Merceditas Gutierrez Should depart as Ombudsman Head",
-      excerpt: "Ombudsman Ma. Merciditas Navarro Gutierrez As head of the country&#8217;s powerful Ombudsman office, Merceditas Gutierrez has failed to perform her mandate.",
+      excerpt: "Ombudsman Ma. Merciditas Navarro Gutierrez As head of the country’s powerful Ombudsman office, Merceditas Gutierrez has failed to perform her mandate.",
       tag: "Politics",
       date: "13 Aug 2010",
       url: "https://dinoacuna.wordpress.com/2010/08/13/4-reasons-why-merceditas-guttierez-should-depart-as-ombudsman-head/",
@@ -361,7 +361,7 @@ window.SITE_DATA = {
     {
       sortKey: "293",
       title: "Highest paid Actors and Actresses in Philippine Government for CY2009",
-      excerpt: "Development Bank of the Philippines BSP Land Bank of the Philippines SSS MWSS PDIC Name of Officer -Mother Unit- Amount 1. Arreza, Armand D. (SBMA) &#8212; 26,865,923.20 2. Ricafort, Benigno (CDC) &#8212; 14,506,466.74 3. Garcia, Edgardo F.",
+      excerpt: "Development Bank of the Philippines BSP Land Bank of the Philippines SSS MWSS PDIC Name of Officer -Mother Unit- Amount 1. Arreza, Armand D. (SBMA) — 26,865,923.20 2. Ricafort, Benigno (CDC) — 14,506,466.74 3. Garcia, Edgardo F. (DBP) — 12,718,942.61 4.",
       tag: "Journal",
       date: "07 Aug 2010",
       url: "https://dinoacuna.wordpress.com/2010/08/07/highest-paid-actors-and-actresses-in-philippine-government-for-cy2009/",
@@ -371,7 +371,7 @@ window.SITE_DATA = {
     {
       sortKey: "279",
       title: "Ivan should have been given a chance:A grieving mother’s cry",
-      excerpt: "Malou Padilla, the mother of the alleged leader of Ivan Padilla Robbery and Carjacking Group, was able to visit her dead son at the Heritage Park, shortly before son&#8217;s remains was cremated.",
+      excerpt: "Malou Padilla, the mother of the alleged leader of Ivan Padilla Robbery and Carjacking Group, was able to visit her dead son at the Heritage Park, shortly before son’s remains was cremated.",
       tag: "Journal",
       date: "05 Aug 2010",
       url: "https://dinoacuna.wordpress.com/2010/08/05/ivan-should-have-been-given-a-chancea-grieving-mothers-cry/",
@@ -381,7 +381,7 @@ window.SITE_DATA = {
     {
       sortKey: "262",
       title: "Noy Gets First Paycheck as President",
-      excerpt: "President Noynoy Aquino who was sworned into office as the country&#8217;s 15th President last June 30 has receieved his 1st paycheck, covering the month of July. A net total of Php 63,002.17 went straight to the bank.",
+      excerpt: "President Noynoy Aquino who was sworned into office as the country’s 15th President last June 30 has receieved his 1st paycheck, covering the month of July. A net total of Php 63,002.17 went straight to the bank.",
       tag: "Politics",
       date: "04 Aug 2010",
       url: "https://dinoacuna.wordpress.com/2010/08/04/noy-gets-1st-paycheck-as-president/",
@@ -391,7 +391,7 @@ window.SITE_DATA = {
     {
       sortKey: "250",
       title: "PNP Seeks to remove LGU’s power to appoint chiefs",
-      excerpt: "Section 51 of Republic Act 6975, otherwise known as the &#8220;PNP Law&#8221; among other things provide, that the Governor in the case of the Provincial Government, in his capacity as a deputized representative of the National Police Commission, shall have th…",
+      excerpt: "Section 51 of Republic Act 6975, otherwise known as the “PNP Law” among other things provide, that the Governor in the case of the Provincial Government, in his capacity as a deputized representative of the National Police Commission, shall have the power to a…",
       tag: "Society",
       date: "02 Aug 2010",
       url: "https://dinoacuna.wordpress.com/2010/08/02/pnp-seeks-to-remove-lgus-authoriy-to-appoint-chiefs/",
@@ -421,7 +421,7 @@ window.SITE_DATA = {
     {
       sortKey: "199",
       title: "Oversupply of Rice vs food security",
-      excerpt: "P-Noy delivering his 1st SONA After former Agriculture and now Bohol Congressman Arthur Yap refuted P-Noy&#8217;s statement regarding the country&#8217;s over importation of rice in the last three years, more and more evidence are coming out everyday, to prove…",
+      excerpt: "P-Noy delivering his 1st SONA After former Agriculture and now Bohol Congressman Arthur Yap refuted P-Noy’s statement regarding the country’s over importation of rice in the last three years, more and more evidence are coming out everyday, to prove that indeed…",
       tag: "Heritage",
       date: "29 Jul 2010",
       url: "https://dinoacuna.wordpress.com/2010/07/29/oversupply-of-rice-vs-food-security/",
@@ -451,7 +451,7 @@ window.SITE_DATA = {
     {
       sortKey: "155",
       title: "Pangilinan backs out of senate presidency",
-      excerpt: "The Philippine Senate Building Contrary to Senator Kiko Pangilinan&#8217;s previous statement, that he will fulfill what he promised the Filipino people, which is to run for the Senate Presidency, win or lost, he withdrew his bid, a day before the Senate elect…",
+      excerpt: "The Philippine Senate Building Contrary to Senator Kiko Pangilinan’s previous statement, that he will fulfill what he promised the Filipino people, which is to run for the Senate Presidency, win or lost, he withdrew his bid, a day before the Senate elects its …",
       tag: "Politics",
       date: "26 Jul 2010",
       url: "https://dinoacuna.wordpress.com/2010/07/26/pangilinan-backs-out-of-the-race-for-senate-presidency/",
@@ -471,7 +471,7 @@ window.SITE_DATA = {
     {
       sortKey: "101",
       title: "The Battle for Senate Presidency: Is it going to be Pangilinan? Villar? . . . or Enrile?",
-      excerpt: "As July 26 draws near, the country&#8217;s politicians in the Upper Chamber become more and more restless, on how they cradle their race towards the Senate Presidency. Sen.",
+      excerpt: "As July 26 draws near, the country’s politicians in the Upper Chamber become more and more restless, on how they cradle their race towards the Senate Presidency. Sen.",
       tag: "Politics",
       date: "23 Jul 2010",
       url: "https://dinoacuna.wordpress.com/2010/07/23/the-battle-for-senate-presidencyis-it-going-to-be-pangilinan-villar-or-enrile/",
@@ -481,7 +481,7 @@ window.SITE_DATA = {
     {
       sortKey: "59",
       title: "Pagcor and the Yummy Burgers",
-      excerpt: "Pagcor, despite former Chairman Efraim Genuino&#8217;s boastful remarks on ANC&#8217;s Karen Davila, about his achievements and clean leadership in the country&#8217;s second largest revenue contributor, has in a short span of time become the country&#8217;s m…",
+      excerpt: "Pagcor, despite former Chairman Efraim Genuino’s boastful remarks on ANC’s Karen Davila, about his achievements and clean leadership in the country’s second largest revenue contributor, has in a short span of time become the country’s most controversial GOCC, …",
       tag: "Heritage",
       date: "21 Jul 2010",
       url: "https://dinoacuna.wordpress.com/2010/07/21/pagcor-and-the-yummy-burger/",
@@ -491,7 +491,7 @@ window.SITE_DATA = {
     {
       sortKey: "40",
       title: "Why did COMELEC allow Mikey Arroyo to represent Security Guards and Cab Drivers?",
-      excerpt: "It is almost uncomprehendable, to think that former Pampanga Congressman and Presidential son Mikey Arroyo, being the first nominee of the partylist &#8220;Ang Galing Pinoy&#8221;, will represent a sector, he himself have never been one.",
+      excerpt: "It is almost uncomprehendable, to think that former Pampanga Congressman and Presidential son Mikey Arroyo, being the first nominee of the partylist “Ang Galing Pinoy”, will represent a sector, he himself have never been one.",
       tag: "Politics",
       date: "21 Jul 2010",
       url: "https://dinoacuna.wordpress.com/2010/07/21/why-did-comelec-allow-mikey-arroyo-to-represent-security-guards-and-cab-drivers/",

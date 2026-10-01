@@ -1288,19 +1288,20 @@ strong { font-weight: 600; color: var(--cream); }
 /* Blog cards. The track is capped well below 380px because minmax() is a hard
    floor: at 390px viewports the shell leaves only 350px, and a 380px floor
    would overflow rather than wrap. */
+/* The track is capped well below 380px because minmax() is a hard floor: at a
+   390px viewport the shell leaves only 350px, and a 380px floor would overflow
+   rather than wrap. */
 .posts {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(380px, 100%), 1fr));
   gap: 1.15rem;
 }
-@media (max-width: 520px) {
-  .post { flex-direction: column; }
-  .post-thumb { flex: 0 0 auto; aspect-ratio: 16 / 9; border-right: 0; border-bottom: 1px solid var(--line-soft); }
-}
 .post {
   position: relative;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  gap: 0;
+  padding: 0;
   border-radius: var(--radius);
   border: 1px solid var(--line-soft);
   background: linear-gradient(170deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.008));
@@ -1308,11 +1309,13 @@ strong { font-weight: 600; color: var(--cream); }
 }
 .post:hover { transform: translateY(-4px); border-color: rgba(230, 196, 124, 0.32); }
 
-/* Blog cards carry a thumbnail on the left; without one they stay text-only. */
-.post { display: flex; gap: 0; padding: 0; overflow: hidden; }
+/* Cards carry a thumbnail beside the text. overflow:hidden is here for the
+   thumbnail's zoom, so the card must not be allowed to clip its own text --
+   see the height:auto guard on .post-body below. */
+.post { overflow: hidden; }
 .post-thumb {
   flex: 0 0 38%;
-  min-height: 100%;
+  align-self: stretch;
   overflow: hidden;
   background: var(--ink-700);
   border-right: 1px solid var(--line-soft);
@@ -1325,7 +1328,7 @@ strong { font-weight: 600; color: var(--cream); }
   transition: transform 0.7s var(--ease), filter 0.4s var(--ease);
 }
 .post:hover .post-thumb img { transform: scale(1.06); filter: saturate(1.05) brightness(1); }
-.post-body { flex: 1 1 auto; padding: 1.7rem 1.6rem 1.5rem; display: flex; flex-direction: column; }
+.post-body { flex: 1 1 auto; height: auto; padding: 1.7rem 1.6rem 1.5rem; display: flex; flex-direction: column; }
 
 .post-top {
   display: flex;
@@ -1360,6 +1363,20 @@ strong { font-weight: 600; color: var(--cream); }
 .post:hover h3 { color: var(--gold-100); }
 .post p { margin: 0 0 1.15rem; font-size: 0.88rem; line-height: 1.62; color: var(--muted); }
 .post .link { margin-top: auto; }
+
+/* Below this width there is no room for a 38% thumbnail beside the text, so
+   the thumbnail moves above it at 16:9. Declared after the base .post rule
+   because a media query placed before it would lose on source order. */
+@media (max-width: 520px) {
+  .post { flex-direction: column; }
+  .post-thumb {
+    flex: 0 0 auto;
+    align-self: stretch;
+    aspect-ratio: 16 / 9;
+    border-right: 0;
+    border-bottom: 1px solid var(--line-soft);
+  }
+}
 
 /* ----------------------------------------------------------------- connect */
 .connect { position: relative; overflow: hidden; isolation: isolate; }

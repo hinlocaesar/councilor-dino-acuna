@@ -18,7 +18,8 @@
     "fetch:editorial": "node tools/fetch-editorial-images.mjs",
     "fetch:fonts": "node tools/fetch-fonts.mjs",
     "sync:static": "node tools/sync-static-blog.mjs",
-    "import:blog": "npm run export:blog && npm run fetch:images && npm run fetch:editorial && npm run sync:static"
+    "verify:images": "node tools/verify-images.mjs",
+    "import:blog": "npm run export:blog && npm run fetch:images && npm run fetch:editorial && npm run sync:static && npm run verify:images"
   },
   "devDependencies": {
     "live-server": "^1.2.2",

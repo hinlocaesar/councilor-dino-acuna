@@ -182,6 +182,7 @@ re-running skips work that is already done.
 | `npm run fetch:editorial` | Same for the 7 photographs hard-coded in the views and `index.html` |
 | `npm run fetch:fonts` | Downloads the woff2 subsets from Google, writes `assets/css/fonts.css` and `cms/wwwroot/css/fonts.css` with the right URL prefix for each build |
 | `npm run sync:static` | Regenerates the `posts` array of `assets/js/data.js` from the export, so both builds list all 40 posts |
+| `npm run verify:images` | Checks every downloaded image has valid header and end markers and real dimensions — a connection truncated mid-stream still passes a byte-size check but renders as nothing |
 
 The Umbraco build keeps its own copy of the same content, seeded from
 `cms/Seeding/wordpress-posts.json` — see **[cms/README.md](cms/README.md)**.

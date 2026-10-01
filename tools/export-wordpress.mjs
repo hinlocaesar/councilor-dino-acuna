@@ -31,10 +31,45 @@ async function fetchAll() {
   return out;
 }
 
+/**
+ * Decode HTML entities to real characters.
+ *
+ * The WordPress REST API returns numeric character references (&#8217; rather
+ * than a literal curly apostrophe), so handling only the named set left those
+ * visible as literal text on the page.
+ *
+ * &amp; is decoded LAST on purpose: an "&amp;#8217;" in the source means the
+ * author genuinely wrote the characters "&#8217;", so it must survive as that
+ * text rather than collapsing into a curly apostrophe.
+ */
+const NAMED = {
+  amp: "&", lt: "<", gt: ">", quot: '"', apos: "'",
+  nbsp: " ", ndash: "\u2013", mdash: "\u2014",
+  lsquo: "\u2018", rsquo: "\u2019",
+  ldquo: "\u201C", rdquo: "\u201D",
+  hellip: "\u2026", copy: "\u00A9", reg: "\u00AE",
+  trade: "\u2122", deg: "\u00B0", middot: "\u00B7",
+  bull: "\u2022", laquo: "\u00AB", raquo: "\u00BB",
+  eacute: "\u00E9", egrave: "\u00E8", agrave: "\u00E0",
+  ccedil: "\u00E7", ntilde: "\u00F1",
+};
+
 const decode = (s = "") =>
-  s
-    .replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"')
-    .replace(/&#0?39;/g, "'").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&");
+  String(s)
+    // numeric, decimal and hex
+    .replace(/&#x([0-9a-f]+);/gi, (_, h) => {
+      const n = parseInt(h, 16);
+      return n > 0 && n <= 0x10ffff ? String.fromCodePoint(n) : _;
+    })
+    .replace(/&#(\d+);/g, (_, d) => {
+      const n = Number(d);
+      return n > 0 && n <= 0x10ffff ? String.fromCodePoint(n) : _;
+    })
+    // named
+    .replace(/&([a-z][a-z0-9]*);/gi, (whole, name) => {
+      const key = name.toLowerCase();
+      return key in NAMED ? NAMED[key] : whole;
+    });
 
 /** Strip WordPress editor metadata that points back at the CDN. */
 function cleanWpMetadata(html) {
@@ -104,11 +139,7 @@ function firstImage(html = "") {
  */
 function cleanTitle(t = "") {
   return decode(t)
-    .replace(/&#(\d+);/g, (_, n) => String.fromCodePoint(Number(n)))
-    .replace(/&#x([0-9a-f]+);/gi, (_, h) => String.fromCodePoint(parseInt(h, 16)))
-    .replace(/&amp;/g, "&")
-    .replace(/&quot;/g, '"')
-    .replace(/\s*[:—–]\s*$/, "")
+    .replace(/\s*[:\u2014\u2013]\s*$/, "")
     .replace(/\s{2,}/g, " ")
     .trim();
 }

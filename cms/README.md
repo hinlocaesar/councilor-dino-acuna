@@ -97,10 +97,16 @@ casing), date, canonical URL, a plain-text excerpt, the cleaned HTML body, the
 first inline image, all WordPress tags, and a short `cardTag` label.
 
 The exporter strips the WordPress comment form, share buttons and
-related-posts chrome, decodes HTML entities in titles, and trims a trailing
-colon. It also drops every `data-*` attribute that carried a `wordpress.com`
-URL — those were editor metadata the browser never reads, but leaving them meant
-500+ absolute dependencies on the source site.
+related-posts chrome, decodes HTML entities, and trims a trailing colon. It also
+drops every `data-*` attribute that carried a `wordpress.com` URL — those were
+editor metadata the browser never reads, but leaving them meant 500+ absolute
+dependencies on the source site.
+
+Entity decoding matters more than it sounds. The WordPress REST API returns
+**numeric** character references (`&#8217;`), not the named set, so a decoder
+that only handles `&amp;` and `&nbsp;` leaves curly apostrophes and em dashes
+visible as literal `&#8217;` text in the card excerpts. `tools/verify-images.mjs`
+runs last in the pipeline to catch downloads that were truncated in transit.
 
 ### Re-importing
 
