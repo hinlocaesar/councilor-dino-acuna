@@ -723,6 +723,11 @@ strong { font-weight: 600; color: var(--cream); }
   font-weight: 500;
   color: var(--gold-500);
   text-align: right;
+  /* The rail and the marker both sit at left: 4.6rem -- flush with the right
+     edge of this column. The marker is 9px across and grows a 5px ring when the
+     row reveals, so right-aligned digits ran underneath it and the last one
+     became unreadable. ~10px of clearance keeps them apart. */
+  padding-right: 1rem;
   padding-top: 0.15rem;
   letter-spacing: 0.02em;
 }
