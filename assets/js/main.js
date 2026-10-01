@@ -74,17 +74,25 @@
     }
 
     host.innerHTML = DATA.posts.map(function (p) {
+      var thumb = p.featuredImage
+        ? '<a class="post-thumb" href="' + esc(p.url) + '" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true">' +
+            '<img src="' + esc(p.featuredImage) + '" alt="" loading="lazy" decoding="async" />' +
+          '</a>'
+        : "";
       return '' +
-      '<article class="post reveal">' +
-        '<div class="post-top">' +
-          '<span class="post-tag">' + esc(p.tag) + '</span>' +
-          '<time class="post-date">' + esc(p.date) + '</time>' +
+      '<article class="post post-has-img reveal">' +
+        thumb +
+        '<div class="post-body">' +
+          '<div class="post-top">' +
+            '<span class="post-tag">' + esc(p.tag) + '</span>' +
+            '<time class="post-date">' + esc(p.date) + '</time>' +
+          '</div>' +
+          '<h3><a href="' + esc(p.url) + '" target="_blank" rel="noopener">' + esc(p.title) + '</a></h3>' +
+          '<p>' + esc(p.excerpt) + '</p>' +
+          '<a class="link" href="' + esc(p.url) + '" target="_blank" rel="noopener">Read the entry' +
+            '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
+          '</a>' +
         '</div>' +
-        '<h3><a href="' + esc(p.url) + '" target="_blank" rel="noopener">' + esc(p.title) + '</a></h3>' +
-        '<p>' + esc(p.excerpt) + '</p>' +
-        '<a class="link" href="' + esc(p.url) + '" target="_blank" rel="noopener">Read the entry' +
-          '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
-        '</a>' +
       '</article>';
     }).join("");
   }

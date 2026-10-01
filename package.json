@@ -11,7 +11,14 @@
     "audit": "node tools/audit.mjs http://localhost:5001/",
     "audit:static": "node tools/audit.mjs http://localhost:4322/",
     "serve:plain": "node tools/static-server.mjs . 4322",
-    "export:blog": "node tools/export-wordpress.mjs"
+    "audit:offline": "node tools/check-offline.mjs http://localhost:5001/",
+    "//import": "The content pipeline. Run in order; each step is idempotent. Run this to rebuild from dinoacuna.wordpress.com — the committed results mean it is not needed to run the site.",
+    "export:blog": "node tools/export-wordpress.mjs",
+    "fetch:images": "node tools/fetch-images.mjs",
+    "fetch:editorial": "node tools/fetch-editorial-images.mjs",
+    "fetch:fonts": "node tools/fetch-fonts.mjs",
+    "sync:static": "node tools/sync-static-blog.mjs",
+    "import:blog": "npm run export:blog && npm run fetch:images && npm run fetch:editorial && npm run sync:static"
   },
   "devDependencies": {
     "live-server": "^1.2.2",

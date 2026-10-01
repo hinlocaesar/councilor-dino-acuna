@@ -58,19 +58,27 @@ You can also just open `index.html` straight off the disk.
 .
 ├─ index.html                 # the whole page
 ├─ assets/
-│  ├─ css/styles.css          # design system + all component styles
-│  ├─ img/thumbs/             # video thumbnails (local, see note)
+│  ├─ css/
+│  │  ├─ styles.css           # design system + all component styles
+│  │  └─ fonts.css            # generated — self-hosted @font-face
+│  ├─ fonts/                  # 41 woff2 subsets (Fraunces + Inter)
+│  ├─ img/
+│  │  ├─ thumbs/              # video thumbnails
+│  │  ├─ editorial/           # portraits + heritage photographs
+│  │  └─ posts/               # 261 photographs from the imported articles
 │  └─ js/
-│     ├─ data.js              # ← EDIT THIS to add videos / blog posts
+│     ├─ data.js              # videos (hand-written) + posts (generated)
 │     └─ main.js              # behaviour (nav, reveal, filter, modal)
 ├─ cms/                       # the Umbraco build — see cms/README.md
-├─ package.json               # dev server only
+├─ tools/                     # the content pipeline + the test suite
+├─ package.json
 └─ .gitignore
 ```
 
-## Adding a video or blog post
+## Adding a video
 
-Everything dynamic lives in **`assets/js/data.js`**. The page reads it on load.
+Video entries are hand-written and live in **`assets/js/data.js`**. The page
+reads them on load, so a new card appears on reload — no build step.
 
 Add a video:
 
@@ -91,6 +99,22 @@ Add a video:
 
 `category` drives the filter chips at the top of the Videos section. Cards
 appear immediately — no rebuild needed, just reload.
+
+## Adding a blog post
+
+Blog posts are **generated, not hand-written.** They are imported from
+`dinoacuna.wordpress.com` and written into the `posts` array of `data.js` by
+`tools/sync-static-blog.mjs`. Editing that array by hand works but will be
+overwritten the next time the import runs.
+
+To pull in new or changed posts from the source blog:
+
+```bash
+npm run import:blog
+```
+
+That runs four steps in order (see [Content pipeline](#content-pipeline)). You do
+not need to run it to run the site — the imported content is committed.
 
 ### Thumbnails
 
@@ -118,7 +142,8 @@ as a video still.
 
 ## Design notes
 
-- **Type** — Fraunces (display serif) + Inter (UI), loaded from Google Fonts.
+- **Type** — Fraunces (display serif) + Inter (UI), **self-hosted** from
+  `assets/fonts/` (see [Self-hosting](#self-hosting)).
 - **Palette** — deep forest greens with gold accents, nodding to Victorias City
   and the sugarcane fields of Negros Occidental.
 - **Motion** — scroll-reveals via `IntersectionObserver`, a gradient sheen on
@@ -128,14 +153,58 @@ as a video still.
   and filter chips, real `<button>` hit areas on video cards, and a full
   `prefers-reduced-motion` path that disables animation.
 
-## Images
+## Self-hosting
 
-Editorial photographs (portraits, heritage) are hot-linked from the original
-WordPress uploads, so there is nothing to re-upload for those. Video thumbnails
-are the exception — see [Thumbnails](#thumbnails) above.
+The site makes **no external requests at all**. Everything it loads — every
+photograph, both typefaces, the stylesheet — is served from this repository. It
+renders identically with the network unplugged, and it cannot be broken by a CDN
+rate-limit, a hot-link block, or the source blog going offline.
 
-If a host ever blocks hotlinking, download the WordPress images into
-`assets/img/` and swap the `src` values in `index.html`.
+| Was | Now | Size |
+| --- | --- | --- |
+| 261 photographs from `dinoacuna.wordpress.com` | `assets/img/posts/` | 21.5 MB |
+| 7 editorial photographs, hot-linked from WordPress | `assets/img/editorial/` | 0.7 MB |
+| 10 video thumbnails from Facebook's signed CDN | `assets/img/thumbs/` | — |
+| Fraunces + Inter from `fonts.googleapis.com` | `assets/fonts/` | 1.4 MB |
+
+`npm run audit:offline` loads the site in a real browser, scrolls it, visits a
+sample of articles, and fails if a single request leaves the local host.
+
+## Content pipeline
+
+`tools/` holds the scripts that produced all of the above. Each is idempotent —
+re-running skips work that is already done.
+
+| Script | Does |
+| --- | --- |
+| `npm run export:blog` | Reads the WordPress.com REST API for all 40 posts, strips the comment form, share buttons and editor metadata → `cms/Seeding/wordpress-posts.json` |
+| `npm run fetch:images` | Downloads every image the posts reference (deduplicating WordPress's `?w=150 / ?w=300 / ?w=1024` renditions down to 261 real files) and rewrites the bodies to point at the local copies |
+| `npm run fetch:editorial` | Same for the 7 photographs hard-coded in the views and `index.html` |
+| `npm run fetch:fonts` | Downloads the woff2 subsets from Google, writes `assets/css/fonts.css` and `cms/wwwroot/css/fonts.css` with the right URL prefix for each build |
+| `npm run sync:static` | Regenerates the `posts` array of `assets/js/data.js` from the export, so both builds list all 40 posts |
+
+The Umbraco build keeps its own copy of the same content, seeded from
+`cms/Seeding/wordpress-posts.json` — see **[cms/README.md](cms/README.md)**.
+
+## Testing
+
+Both builds are checked by a Playwright harness in `tools/audit.mjs` — 76 checks
+across desktop, tablet and mobile, including layout overflow, tap-target size,
+keyboard navigation, `prefers-reduced-motion`, the no-JavaScript render, and
+mojibake in the source.
+
+```bash
+npm run audit          # Umbraco on :5001  (start `dotnet run` first)
+npm run audit:static   # static build
+npm run audit:offline  # asserts zero external requests
+```
+
+It writes screenshots and `report.txt` to `tools/shots/` (not committed) and
+exits non-zero on failure, so it drops straight into CI.
+
+> Audit the static build on **:4322** (`npm run serve:plain`), not :4321.
+> `live-server` injects a reload client that navigates mid-test and tears down
+> the browser context.
 
 ## Deploying
 

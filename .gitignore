@@ -8,4 +8,5 @@ Thumbs.db
 *.log
 
 # audit output — regenerate with: node tools/audit.mjs <url>
-tools/
+# (the scripts themselves ARE tracked; only the generated artefacts are not)
+tools/shots/

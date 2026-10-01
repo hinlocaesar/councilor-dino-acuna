@@ -73,12 +73,23 @@ built-in sort.
 ## Importing the blog from WordPress
 
 All **40 posts** from dinoacuna.wordpress.com (July 2010 – March 2025) are
-imported with their full article bodies — roughly 560,000 characters of HTML,
+imported with their full article bodies — roughly 379,000 characters of HTML,
 including the photographs and WordPress gallery blocks.
 
+Every photograph those articles reference is **stored locally**, so the CMS makes
+no request to `dinoacuna.wordpress.com` at runtime. 261 images live in
+`wwwroot/img/posts/` (21.5 MB) and 7 more in `wwwroot/img/editorial/`; the fonts
+are self-hosted in `wwwroot/fonts/` too. See
+[Self-hosting](../README.md#self-hosting) in the root README.
+
 ```bash
-node tools/export-wordpress.mjs      # re-fetch via the WordPress.com REST API
+npm run import:blog      # from the repo root — export, images, editorial, sync
 ```
+
+`npm run export:blog` re-fetches via the WordPress.com REST API,
+`npm run fetch:images` downloads and rewrites the article images, and
+`npm run sync:static` regenerates the static build's post list from the same
+export so both builds stay identical.
 
 That writes `cms/Seeding/wordpress-posts.json`, which the seeder reads on the
 next fresh install. Per post it stores the title (verbatim, author's own
@@ -87,7 +98,9 @@ first inline image, all WordPress tags, and a short `cardTag` label.
 
 The exporter strips the WordPress comment form, share buttons and
 related-posts chrome, decodes HTML entities in titles, and trims a trailing
-colon.
+colon. It also drops every `data-*` attribute that carried a `wordpress.com`
+URL — those were editor metadata the browser never reads, but leaving them meant
+500+ absolute dependencies on the source site.
 
 ### Re-importing
 
@@ -165,9 +178,15 @@ cms/
 │  ├─ Post.cshtml                 # a full imported article
 │  └─ _ViewImports.cshtml
 ├─ wwwroot/
-│  ├─ css/styles.css              # byte-identical to assets/css
-│  ├─ js/site.js                  # interactions only — cards are server-rendered
-│  └─ img/thumbs/                 # video thumbnails
+│  ├─ css/
+│  │  ├─ styles.css              # byte-identical to assets/css
+│  │  └─ fonts.css               # generated — self-hosted @font-face
+│  ├─ fonts/                     # 41 woff2 subsets (Fraunces + Inter)
+│  ├─ img/
+│  │  ├─ thumbs/                 # video thumbnails
+│  │  ├─ editorial/              # portraits + heritage photographs
+│  │  └─ posts/                  # 261 images from the imported articles
+│  └─ js/site.js                 # interactions only — cards are server-rendered
 ├─ appsettings.json               # SQLite + unattended install credentials
 ├─ umbraco/Data/                  # the SQLite database (git-ignored)
 └─ DinoAcuna.Web.csproj
@@ -182,9 +201,10 @@ markup.
 
 **No media library import.** Umbraco 17 exposes no public file-upload API to
 application code — uploads go through the Management API. The seeder therefore
-stores thumbnails as filenames in `wwwroot` instead of as media items. If you
-want them in the library, upload them once through the backoffice and swap the
-`thumbFile` property for a media picker.
+stores images as filenames in `wwwroot` instead of as media items. This applies
+to the 261 article images and 7 editorial photographs as much as to the video
+thumbnails. If you want them in the library, upload them once through the
+backoffice and swap the `thumbFile` property for a media picker.
 
 **One-page site, plus article pages.** `/` serves the single page and
 `/post/{slug}` serves each imported blog post. `HomeController` intercepts only
