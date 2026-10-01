@@ -4,12 +4,18 @@
   "private": true,
   "description": "Official static site for Councilor Dino Acuna of Victorias City, Negros Occidental.",
   "scripts": {
-    "dev": "live-server --port=4321 --no-browser",
+    "//dev": "Uses --ignorePattern (a regex) rather than --ignore (globs). Two reasons: live-server only compiles --ignorePattern into a real RegExp, and chokidar emits an addDir event for cms/umbraco BEFORE descending, so filtering children by glob is too late -- the SQLite WAL file, written several times a second while the CMS runs, still forces a reload. Matching the directory itself prunes the whole subtree.",
+    "dev": "live-server --port=4321 --no-browser --ignorePattern=\"[\\\\/](umbraco|Logs|TEMP|node_modules|bin|obj|\\.git|shots)([\\\\/]|$)\"",
     "start": "npm run dev",
-    "serve": "live-server --port=4321 --no-browser"
+    "serve": "npm run dev",
+    "audit": "node tools/audit.mjs http://localhost:5001/",
+    "audit:static": "node tools/audit.mjs http://localhost:4322/",
+    "serve:plain": "node tools/static-server.mjs . 4322",
+    "export:blog": "node tools/export-wordpress.mjs"
   },
   "devDependencies": {
-    "live-server": "^1.2.2"
+    "live-server": "^1.2.2",
+    "playwright": "^1.63.0"
   },
   "browserslist": [
     "defaults",
