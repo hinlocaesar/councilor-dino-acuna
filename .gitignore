@@ -16,3 +16,11 @@ tools/shots/
 
 # assembled by the Pages workflow
 _site/
+
+# dist/ carries the exported markup (committed); the binaries under it are
+# copied in from cms/wwwroot by tools/assemble-pages.mjs and are not committed,
+# so the repository holds one copy of the images rather than two.
+dist/css/
+dist/js/
+dist/img/
+dist/fonts/

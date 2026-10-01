@@ -25,6 +25,11 @@ The design is identical between them — the Umbraco build reuses the same CSS
 byte-for-byte. Pick the static one for simplicity, or Umbraco if you want to edit
 content through a CMS.
 
+**What GitHub Pages actually serves:** the Umbraco CMS, rendered to static files.
+`npm run pages:build` exports it to `dist/`, which is what the Pages workflow
+publishes. So you edit in the backoffice locally and the published site follows.
+See [Publishing an edit](#publishing-an-edit).
+
 ---
 
 # Static version
@@ -113,8 +118,13 @@ To pull in new or changed posts from the source blog:
 npm run import:blog
 ```
 
-That runs four steps in order (see [Content pipeline](#content-pipeline)). You do
-not need to run it to run the site — the imported content is committed.
+That runs the pipeline in order (see [Content pipeline](#content-pipeline)). You
+do not need to run it to run the site — the imported content is committed.
+
+**To add or change a post after the initial import, use the backoffice** rather
+than re-running the importer: *Content →* pick the item, edit it, save, publish.
+Then `npm run pages:build` to push it to the published site. The importer would
+overwrite your edits with what WordPress says.
 
 ### Thumbnails
 
@@ -185,6 +195,7 @@ re-running skips work that is already done.
 | `npm run sync:static` | Regenerates the `posts` array of `assets/js/data.js` from the export, so both builds list all 40 posts |
 | `npm run verify:images` | Checks every downloaded image has valid header and end markers and real dimensions — a connection truncated mid-stream still passes a byte-size check but renders as nothing |
 | `npm run verify:subpath` | Mounts the build under `/councilor-dino-acuna/` and loads it in a browser, which is how Pages serves it |
+| `npm run pages:build` | Renders the running CMS to `dist/`, copies the assets in, and verifies the result under a Pages subpath — this is what gets published |
 
 Run the whole thing with `npm run import:blog`, or `npm run verify` to check the
 committed result. Both are safe to re-run.
@@ -225,23 +236,28 @@ HTML. `tools/calibrate.mjs` reproduces those measurements.
 
 ## Testing
 
-Both builds are checked by a Playwright harness in `tools/audit.mjs` — 76 checks
-across desktop, tablet and mobile, including layout overflow, tap-target size,
-keyboard navigation, `prefers-reduced-motion`, the no-JavaScript render, and
-mojibake in the source.
+The build is checked by Playwright harnesses in `tools/`. All of them exit
+non-zero on failure, so they drop straight into CI.
 
 ```bash
 npm run audit          # Umbraco on :5001  (start `dotnet run` first)
 npm run audit:static   # static build
 npm run audit:offline  # asserts zero external requests
+npm run verify:images  # every image is complete and non-degenerate
+npm run pages:verify   # dist/ matches the import, and serves from a subpath
+npm run verify         # images + subpath + static audit
 ```
 
-It writes screenshots and `report.txt` to `tools/shots/` (not committed) and
-exits non-zero on failure, so it drops straight into CI.
+`audit.mjs` runs 76 checks across desktop, tablet and mobile, including layout
+overflow, tap-target size, keyboard navigation, `prefers-reduced-motion`, the
+no-JavaScript render, and mojibake in the source. `verify-export.mjs` serves
+`dist/` under the Pages prefix and loads all 40 articles. Screenshots and
+`report.txt` land in `tools/shots/` (not committed).
 
 > Audit the static build on **:4322** (`npm run serve:plain`), not :4321.
 > `live-server` injects a reload client that navigates mid-test and tears down
 > the browser context.
+
 
 ## Deploying
 
@@ -249,27 +265,68 @@ The site is fully static — any host works. GitHub Pages is already wired up.
 
 ### GitHub Pages
 
+The published site is the Umbraco CMS rendered to plain files. GitHub Pages
+cannot run .NET, so the site is exported and the result committed:
+
+```
+dist/index.html              home
+dist/post/<slug>/index.html  all 40 articles
+dist/sitemap.xml             41 urls
+dist/css js img fonts        ← git-ignored, copied from cms/wwwroot at deploy time
+```
+
 **One-time setup:** *Settings → Pages → Build and deployment → Source: **GitHub
 Actions***. After that, every push to `main` deploys itself.
 
-The workflow at `.github/workflows/deploy-pages.yml` publishes **only the
-static build** (`index.html` + `assets/`). The Umbraco project under `cms/`
-needs .NET and SQLite, which Pages cannot run, so it stays in the repository for
-local use and is not deployed.
+#### Publishing an edit
 
-Because this is a *project* repository, Pages serves it from a subpath:
-`https://hinlocaesar.github.io/councilor-dino-acuna/`. Every asset reference
-has to be document-relative or it will 404 there while working perfectly
-locally — `npm run verify:subpath` mounts the build under that prefix and loads
-it in a real browser to prove it, and CI runs the same check before publishing.
+```bash
+dotnet run --project cms        # 1. edit in the backoffice at /umbraco
+npm run pages:build             # 2. re-export, assemble and verify
+git add dist && git commit -m "…"
+git push                         # 3. Pages deploys
+```
+
+`npm run pages:build` runs three steps and fails loudly rather than publishing
+something broken:
+
+| Step | Does |
+| --- | --- |
+| `pages:export` | Fetches every page from the running CMS and writes `dist/` as static files, rewriting root-absolute URLs to be document-relative |
+| `pages:assemble` | Copies `css js img fonts` in from `cms/wwwroot` and fixes the `url()` references inside the stylesheets |
+| `pages:verify` | Confirms `dist/` matches the import, then serves it under the Pages subpath and loads all 40 articles in a browser |
+
+#### Why the markup is committed rather than rendered in CI
+
+It would be tidier to spin up .NET in the workflow and render at deploy time.
+That is wrong here: the content lives in a **local SQLite database**, not in the
+repository. A fresh CI render would seed itself from
+`cms/Seeding/wordpress-posts.json` and publish content that predates every edit
+made in the backoffice — your edits would silently never reach the site.
+
+Committing the export keeps the CMS authoritative, which is the point of having
+one. It also keeps the repository small: `dist/` holds 0.7 MB of markup, and the
+11.5 MB of images stay in `cms/wwwroot/` as a single copy rather than two.
+
+#### Subpath
+
+This is a *project* repository, so Pages serves it from
+`https://hinlocaesar.github.io/councilor-dino-acuna/`. Any root-absolute asset
+path (`/css/styles.css`) works on localhost and 404s there, and grepping cannot
+reliably catch it — so the exporter rewrites every URL to be document-relative
+and `verify-export.mjs` serves the build under the real prefix and loads it in a
+browser before publishing.
 
 To deploy by hand, use the **Actions** tab → *Deploy to GitHub Pages* → *Run
 workflow*.
 
 ### Elsewhere
 
-- **Netlify / Vercel:** drag the folder in, or connect the repo. No build command.
-- **Your own server:** upload `index.html` and `assets/` to any web root.
+- **Netlify / Vercel:** connect the repo, build command `npm run pages:build`,
+  publish directory `dist`. Needs .NET available, since the export renders the
+  CMS. Or upload an already-built `dist/` by hand — no build command at all.
+- **Your own server:** upload the contents of `dist/` to any web root.
+
 
 
 ## Disclaimer

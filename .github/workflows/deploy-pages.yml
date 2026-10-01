@@ -1,21 +1,28 @@
-# Publishes the static build to GitHub Pages.
+# Publishes the exported site to GitHub Pages.
 #
-# Only the static build ships. The Umbraco project under cms/ needs .NET and
-# SQLite, neither of which GitHub Pages can run, so it stays in the repository
-# for local use and for anyone who wants the CMS -- it is not deployed.
+# What is published is dist/ — the markup rendered by the Umbraco CMS and
+# committed to this repository — plus the assets copied in from cms/wwwroot.
 #
-# SETUP (one click, once): Settings -> Pages -> Build and deployment ->
-# Source: "GitHub Actions". This workflow cannot enable Pages itself.
+# Why the markup is committed rather than rendered here
+# ----------------------------------------------------
+# It is tempting to spin up .NET in this workflow and render the pages at deploy
+# time. That would be wrong. The content lives in a local SQLite database, not in
+# the repository, so a fresh CI render would seed itself from
+# cms/Seeding/wordpress-posts.json and publish content that predates every edit
+# made in the local backoffice. The edits would silently never reach the site.
 #
-# After the first successful run the site is at
-#   https://hinlocaesar.github.io/councilor-dino-acuna/
+# So: edit in the backoffice, run `npm run pages:build`, commit dist/, push.
+# That keeps the CMS authoritative, which is the point of having one.
+#
+# SETUP (once): Settings -> Pages -> Build and deployment -> Source: GitHub Actions
+#
+# Then the site is at https://hinlocaesar.github.io/councilor-dino-acuna/
 
 name: Deploy to GitHub Pages
 
 on:
   push:
     branches: [main]
-  # Lets the site be redeployed from the Actions tab without a commit.
   workflow_dispatch:
 
 permissions:
@@ -23,8 +30,6 @@ permissions:
   pages: write
   id-token: write
 
-# Never run two deploys at once, and let a queued one replace the running one
-# rather than piling up.
 concurrency:
   group: pages
   cancel-in-progress: true
@@ -43,56 +48,38 @@ jobs:
         with:
           node-version: 20
 
-      - name: Install
-        run: npm ci
+      - run: npm ci
+
+      # dist/ holds the markup. Check it matches the import before publishing,
+      # so a forgotten `npm run pages:build` fails loudly instead of quietly
+      # serving a stale site.
+      - name: Check the export covers every imported post
+        run: node tools/check-export.mjs
 
       # The images are committed already minified by tools/optimize-images.mjs.
-      # Re-running it here would be a no-op, but verifying proves the committed
-      # assets are the optimised ones rather than raw WordPress downloads.
+      # Re-running it would be a no-op; verifying proves the committed binaries
+      # are the optimised ones rather than raw WordPress downloads.
       - name: Verify the committed images are minified and intact
         run: |
           node tools/verify-images.mjs
           node tools/report-payload.mjs
 
-      # The journal cards are generated from the WordPress export, so regenerate
-      # them and fail if the committed file has drifted from what the pipeline
-      # produces. This keeps the published site honest about its own content.
-      - name: Check the generated blog data is current
-        run: |
-          cp assets/js/data.js /tmp/data.committed.js
-          node tools/sync-static-blog.mjs
-          if ! diff -q /tmp/data.committed.js assets/js/data.js > /dev/null; then
-            echo "::error::assets/js/data.js is out of date with cms/Seeding/wordpress-posts.json."
-            echo "Run 'npm run sync:static' and commit the result."
-            exit 1
-          fi
+      - name: Copy the assets in from cms/wwwroot
+        run: node tools/assemble-pages.mjs
 
-      # Collect exactly what Pages should serve. Copying a whitelist rather than
-      # excluding cms/ and tools/ means a new top-level directory cannot leak
-      # into the published site by accident.
-      - name: Assemble the publish directory
-        run: |
-          mkdir -p _site
-          cp index.html _site/
-          cp -r assets _site/
-          # Tells Jekyll (still used for some Pages sites) to publish files and
-          # directories whose names begin with an underscore verbatim.
-          touch _site/.nojekyll
-          echo "publishing:"
-          du -sh _site
-          find _site -type f | wc -l | sed 's/^/  files: /'
-
+      # Pages serves a project repository from a subpath, so every asset
+      # reference has to be document-relative or it 404s while working perfectly
+      # on localhost. Serve dist/ under that prefix and load it in a real
+      # browser before publishing.
       - name: Check the site works from a subpath
-        # Pages serves this repo at /councilor-dino-acuna/, not at the root.
-        # Every asset reference has to be document-relative or it 404s there
-        # while working fine locally. Verify that for real before publishing.
         run: |
-          node tools/verify-subpath.mjs
+          npx playwright install --with-deps chromium
+          node tools/verify-export.mjs
 
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: _site
+          path: dist
 
       - id: deployment
         uses: actions/deploy-pages@v4
