@@ -245,14 +245,17 @@ npm run audit:static   # static build
 npm run audit:offline  # asserts zero external requests
 npm run verify:images  # every image is complete and non-degenerate
 npm run pages:verify   # dist/ matches the import, and serves from a subpath
+npm run pages:live     # loads the PUBLISHED site and visits all 40 articles
 npm run verify         # images + subpath + static audit
 ```
 
 `audit.mjs` runs 76 checks across desktop, tablet and mobile, including layout
 overflow, tap-target size, keyboard navigation, `prefers-reduced-motion`, the
 no-JavaScript render, and mojibake in the source. `verify-export.mjs` serves
-`dist/` under the Pages prefix and loads all 40 articles. Screenshots and
-`report.txt` land in `tools/shots/` (not committed).
+`dist/` under the Pages prefix and loads all 40 articles. `verify-live.mjs` does
+the same against the deployed URL, which is the only way to confirm the
+published site works rather than the one on disk. Screenshots and `report.txt`
+land in `tools/shots/` (not committed).
 
 > Audit the static build on **:4322** (`npm run serve:plain`), not :4321.
 > `live-server` injects a reload client that navigates mid-test and tears down
@@ -275,8 +278,15 @@ dist/sitemap.xml             41 urls
 dist/css js img fonts        ← git-ignored, copied from cms/wwwroot at deploy time
 ```
 
-**One-time setup:** *Settings → Pages → Build and deployment → Source: **GitHub
-Actions***. After that, every push to `main` deploys itself.
+**Live at:** https://hinlocaesar.github.io/councilor-dino-acuna/
+
+Pages is enabled with *Source: GitHub Actions*, so every push to `main` deploys
+itself.
+
+> The repository is **public**. GitHub Pages is not available for private
+> repositories on the Free plan — GitHub returns *"Your current plan does not
+> support GitHub Pages for this repository"* — so this had to change to put the
+> site online. The repository holds only this site's content; no credentials.
 
 #### Publishing an edit
 
