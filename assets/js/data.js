@@ -136,7 +136,7 @@ window.SITE_DATA = {
       date: "27 Mar 2025",
       url: "https://dinoacuna.wordpress.com/2025/03/27/supporting-our-women-sector/",
       slug: "supporting-our-women-sector",
-      featuredImage: "assets/img/posts/20250326_115349.jpg"
+      featuredImage: "assets/img/cards/20250326_115349.jpg"
     },
     {
       sortKey: "748",
@@ -146,7 +146,7 @@ window.SITE_DATA = {
       date: "26 Mar 2025",
       url: "https://dinoacuna.wordpress.com/2025/03/26/748/",
       slug: "748",
-      featuredImage: "assets/img/posts/fb_img_1742964718304.jpg"
+      featuredImage: "assets/img/cards/fb_img_1742964718304.jpg"
     },
     {
       sortKey: "670",
@@ -156,7 +156,7 @@ window.SITE_DATA = {
       date: "25 Mar 2025",
       url: "https://dinoacuna.wordpress.com/2025/03/25/victorias-citys-sidlak-sang-kadalag-an-dancers-win-grandslam-champion-in-the-best-festival-of-dances-competion-of-the-2025-panaad-sa-negros/",
       slug: "victorias-citys-sidlak-sang-kadalag-an-dancers-win-grandslam-champion-in-the-best-festival-of-dances-competion-of-the-2025-panaad-sa-negros",
-      featuredImage: "assets/img/posts/fb_img_1742915516807-1.jpg"
+      featuredImage: "assets/img/cards/fb_img_1742915516807-1.jpg"
     },
     {
       sortKey: "645",
@@ -166,7 +166,7 @@ window.SITE_DATA = {
       date: "22 Mar 2025",
       url: "https://dinoacuna.wordpress.com/2025/03/22/honoring-mayor-severo-a-palanca-the-visionary-behind-victorias-cityhood-mayor-javier-miguel-l-benitez-continuing-the-legacy-of-service-and-leading-victorias-to-the-pinnacle-of-succe/",
       slug: "honoring-mayor-severo-a-palanca-the-visionary-behind-victorias-cityhood-mayor-javier-miguel-l-benitez-continuing-the-legacy-of-service-and-leading-victorias-to-the-pinnacle-of-succe",
-      featuredImage: "assets/img/posts/screenshot_20250321_060000_chrome-1.jpg"
+      featuredImage: "assets/img/cards/screenshot_20250321_060000_chrome-1.jpg"
     },
     {
       sortKey: "619",
@@ -176,7 +176,7 @@ window.SITE_DATA = {
       date: "29 Oct 2011",
       url: "https://dinoacuna.wordpress.com/2011/10/29/i-love-my-generation/",
       slug: "i-love-my-generation",
-      featuredImage: "assets/img/posts/2.png"
+      featuredImage: "assets/img/cards/2.png"
     },
     {
       sortKey: "612",
@@ -186,7 +186,7 @@ window.SITE_DATA = {
       date: "28 Oct 2011",
       url: "https://dinoacuna.wordpress.com/2011/10/28/in-gratitude-to-mrs-remedios-p-bantug/",
       slug: "in-gratitude-to-mrs-remedios-p-bantug",
-      featuredImage: "assets/img/posts/37302_1345123783788_1102069184_30816569_6632685_n-copy.jpg"
+      featuredImage: "assets/img/cards/37302_1345123783788_1102069184_30816569_6632685_n-copy.jpg"
     },
     {
       sortKey: "599",
@@ -196,7 +196,7 @@ window.SITE_DATA = {
       date: "28 Oct 2011",
       url: "https://dinoacuna.wordpress.com/2011/10/28/armed-conflict-in-mindanao-pnoy/",
       slug: "armed-conflict-in-mindanao-pnoy",
-      featuredImage: "assets/img/posts/imagesca4xdkiq.jpg"
+      featuredImage: "assets/img/cards/imagesca4xdkiq.jpg"
     },
     {
       sortKey: "592",
@@ -206,7 +206,7 @@ window.SITE_DATA = {
       date: "24 Oct 2011",
       url: "https://dinoacuna.wordpress.com/2011/10/24/albees-sugar-act-bill-on-the-rise/",
       slug: "albees-sugar-act-bill-on-the-rise",
-      featuredImage: "assets/img/posts/3020albee20benitez_1.jpg"
+      featuredImage: "assets/img/cards/3020albee20benitez_1.jpg"
     },
     {
       sortKey: "568",
@@ -216,7 +216,7 @@ window.SITE_DATA = {
       date: "02 Oct 2011",
       url: "https://dinoacuna.wordpress.com/2011/10/02/miss-rosalina-j-hautea/",
       slug: "miss-rosalina-j-hautea",
-      featuredImage: "assets/img/posts/30849_1454725777571_1516120012_1150429_7319635_n1.jpg"
+      featuredImage: "assets/img/cards/30849_1454725777571_1516120012_1150429_7319635_n1.jpg"
     },
     {
       sortKey: "558",
@@ -226,7 +226,7 @@ window.SITE_DATA = {
       date: "30 Sep 2011",
       url: "https://dinoacuna.wordpress.com/2011/09/30/thank-you-for-your-sympathies-2/",
       slug: "thank-you-for-your-sympathies-2",
-      featuredImage: "assets/img/posts/131020107993.jpg"
+      featuredImage: "assets/img/cards/131020107993.jpg"
     },
     {
       sortKey: "496",
@@ -236,7 +236,7 @@ window.SITE_DATA = {
       date: "28 Sep 2011",
       url: "https://dinoacuna.wordpress.com/2011/09/28/sleep-well-lola-aling-good-night/",
       slug: "sleep-well-lola-aling-good-night",
-      featuredImage: "assets/img/posts/13102010799.jpg"
+      featuredImage: "assets/img/cards/13102010799.jpg"
     },
     {
       sortKey: "482",
@@ -246,7 +246,7 @@ window.SITE_DATA = {
       date: "08 Feb 2011",
       url: "https://dinoacuna.wordpress.com/2011/02/08/afp-anomalies-revealed/",
       slug: "afp-anomalies-revealed",
-      featuredImage: "assets/img/posts/senate-plea-bargain061.jpg"
+      featuredImage: "assets/img/cards/senate-plea-bargain061.jpg"
     },
     {
       sortKey: "447",
@@ -256,7 +256,7 @@ window.SITE_DATA = {
       date: "22 Jan 2011",
       url: "https://dinoacuna.wordpress.com/2011/01/22/crimes-and-criminalities-in-the-philippine-present-times/",
       slug: "crimes-and-criminalities-in-the-philippine-present-times",
-      featuredImage: "assets/img/posts/thumbnailca0br7ru.jpg"
+      featuredImage: "assets/img/cards/thumbnailca0br7ru.jpg"
     },
     {
       sortKey: "437",
@@ -266,7 +266,7 @@ window.SITE_DATA = {
       date: "11 Dec 2010",
       url: "https://dinoacuna.wordpress.com/2010/12/11/filipino-remittances-is-4th-largest-in-the-world/",
       slug: "filipino-remittances-is-4th-largest-in-the-world",
-      featuredImage: "assets/img/posts/philippine-flag.jpg"
+      featuredImage: "assets/img/cards/philippine-flag.jpg"
     },
     {
       sortKey: "424",
@@ -276,7 +276,7 @@ window.SITE_DATA = {
       date: "14 Oct 2010",
       url: "https://dinoacuna.wordpress.com/2010/10/14/a-victory-in-chile/",
       slug: "a-victory-in-chile",
-      featuredImage: "assets/img/posts/r2788983007.jpg"
+      featuredImage: "assets/img/cards/r2788983007.jpg"
     },
     {
       sortKey: "408",
@@ -286,7 +286,7 @@ window.SITE_DATA = {
       date: "22 Sep 2010",
       url: "https://dinoacuna.wordpress.com/2010/09/22/the-luring-temptation-of-jueteng-payola/",
       slug: "the-luring-temptation-of-jueteng-payola",
-      featuredImage: "assets/img/posts/lotto20220balls-277x300.jpg"
+      featuredImage: "assets/img/cards/lotto20220balls-277x300.jpg"
     },
     {
       sortKey: "394",
@@ -296,7 +296,7 @@ window.SITE_DATA = {
       date: "13 Sep 2010",
       url: "https://dinoacuna.wordpress.com/2010/09/13/hail-to-executive-order-number-7/",
       slug: "hail-to-executive-order-number-7",
-      featuredImage: "assets/img/posts/philippinepresidentialseal.jpg"
+      featuredImage: "assets/img/cards/philippinepresidentialseal.jpg"
     },
     {
       sortKey: "374",
@@ -306,7 +306,7 @@ window.SITE_DATA = {
       date: "28 Aug 2010",
       url: "https://dinoacuna.wordpress.com/2010/08/28/one-incident-many-results/",
       slug: "one-incident-many-results",
-      featuredImage: "assets/img/posts/capt_7e5403e8000949dd8a3f8d1b11af4177-7e5403e8000949dd8a3f8d1b11af4177-0.jpg"
+      featuredImage: "assets/img/cards/capt_7e5403e8000949dd8a3f8d1b11af4177-7e5403e8000949dd8a3f8d1b11af4177-0.jpg"
     },
     {
       sortKey: "366",
@@ -316,7 +316,7 @@ window.SITE_DATA = {
       date: "24 Aug 2010",
       url: "https://dinoacuna.wordpress.com/2010/08/24/statement-of-the-president-on-the-hostage-taking-incident-at-the-quirino-grandstand/",
       slug: "statement-of-the-president-on-the-hostage-taking-incident-at-the-quirino-grandstand",
-      featuredImage: "assets/img/posts/39824_419164662273_132390222273_5308478_3485468_n.jpg"
+      featuredImage: "assets/img/cards/39824_419164662273_132390222273_5308478_3485468_n.jpg"
     },
     {
       sortKey: "352",
@@ -326,7 +326,7 @@ window.SITE_DATA = {
       date: "23 Aug 2010",
       url: "https://dinoacuna.wordpress.com/2010/08/23/bus-hostage-crisiswhy-rolando-mendoza-had-to-resort-to-this/",
       slug: "bus-hostage-crisiswhy-rolando-mendoza-had-to-resort-to-this",
-      featuredImage: "assets/img/posts/r3072668526.jpg"
+      featuredImage: "assets/img/cards/r3072668526.jpg"
     },
     {
       sortKey: "340",
@@ -336,7 +336,7 @@ window.SITE_DATA = {
       date: "19 Aug 2010",
       url: "https://dinoacuna.wordpress.com/2010/08/19/police-brutality-a-monster-in-uniform/",
       slug: "police-brutality-a-monster-in-uniform",
-      featuredImage: "assets/img/posts/pic-08190353180842.jpg"
+      featuredImage: "assets/img/cards/pic-08190353180842.jpg"
     },
     {
       sortKey: "326",
@@ -346,7 +346,7 @@ window.SITE_DATA = {
       date: "13 Aug 2010",
       url: "https://dinoacuna.wordpress.com/2010/08/13/4-reasons-why-merceditas-guttierez-should-depart-as-ombudsman-head/",
       slug: "4-reasons-why-merceditas-guttierez-should-depart-as-ombudsman-head",
-      featuredImage: "assets/img/posts/ma_merceditas_navarro-gutierrez.jpg"
+      featuredImage: "assets/img/cards/ma_merceditas_navarro-gutierrez.jpg"
     },
     {
       sortKey: "315",
@@ -356,7 +356,7 @@ window.SITE_DATA = {
       date: "09 Aug 2010",
       url: "https://dinoacuna.wordpress.com/2010/08/09/hell-no-to-pagcor-privatization/",
       slug: "hell-no-to-pagcor-privatization",
-      featuredImage: "assets/img/posts/pagcor_logo.jpg"
+      featuredImage: "assets/img/cards/pagcor_logo.jpg"
     },
     {
       sortKey: "293",
@@ -366,7 +366,7 @@ window.SITE_DATA = {
       date: "07 Aug 2010",
       url: "https://dinoacuna.wordpress.com/2010/08/07/highest-paid-actors-and-actresses-in-philippine-government-for-cy2009/",
       slug: "highest-paid-actors-and-actresses-in-philippine-government-for-cy2009",
-      featuredImage: "assets/img/posts/1683607585_6b94d6d69f.jpg"
+      featuredImage: "assets/img/cards/1683607585_6b94d6d69f.jpg"
     },
     {
       sortKey: "279",
@@ -376,7 +376,7 @@ window.SITE_DATA = {
       date: "05 Aug 2010",
       url: "https://dinoacuna.wordpress.com/2010/08/05/ivan-should-have-been-given-a-chancea-grieving-mothers-cry/",
       slug: "ivan-should-have-been-given-a-chancea-grieving-mothers-cry",
-      featuredImage: "assets/img/posts/39619_143973285622677_143898882296784_338574_3502217_n.jpg"
+      featuredImage: "assets/img/cards/39619_143973285622677_143898882296784_338574_3502217_n.jpg"
     },
     {
       sortKey: "262",
@@ -386,7 +386,7 @@ window.SITE_DATA = {
       date: "04 Aug 2010",
       url: "https://dinoacuna.wordpress.com/2010/08/04/noy-gets-1st-paycheck-as-president/",
       slug: "noy-gets-1st-paycheck-as-president",
-      featuredImage: "assets/img/posts/philippinepresidentialseal.jpg"
+      featuredImage: "assets/img/cards/philippinepresidentialseal.jpg"
     },
     {
       sortKey: "250",
@@ -396,7 +396,7 @@ window.SITE_DATA = {
       date: "02 Aug 2010",
       url: "https://dinoacuna.wordpress.com/2010/08/02/pnp-seeks-to-remove-lgus-authoriy-to-appoint-chiefs/",
       slug: "pnp-seeks-to-remove-lgus-authoriy-to-appoint-chiefs",
-      featuredImage: "assets/img/posts/pnp_logo.png"
+      featuredImage: "assets/img/cards/pnp_logo.png"
     },
     {
       sortKey: "245",
@@ -406,7 +406,7 @@ window.SITE_DATA = {
       date: "01 Aug 2010",
       url: "https://dinoacuna.wordpress.com/2010/08/01/p-noys-speech-on-moms-1st-anniversary-of-death/",
       slug: "p-noys-speech-on-moms-1st-anniversary-of-death",
-      featuredImage: "assets/img/posts/39631_419174272273_132390222273_5308881_6154394_n.jpg"
+      featuredImage: "assets/img/cards/39631_419174272273_132390222273_5308881_6154394_n.jpg"
     },
     {
       sortKey: "216",
@@ -416,7 +416,7 @@ window.SITE_DATA = {
       date: "30 Jul 2010",
       url: "https://dinoacuna.wordpress.com/2010/07/30/remembering-cory/",
       slug: "remembering-cory",
-      featuredImage: "assets/img/posts/r409785_19353391.jpg"
+      featuredImage: "assets/img/cards/r409785_19353391.jpg"
     },
     {
       sortKey: "199",
@@ -426,7 +426,7 @@ window.SITE_DATA = {
       date: "29 Jul 2010",
       url: "https://dinoacuna.wordpress.com/2010/07/29/oversupply-of-rice-vs-food-security/",
       slug: "oversupply-of-rice-vs-food-security",
-      featuredImage: "assets/img/posts/39491_417247712273_132390222273_5255635_1224479_n.jpg"
+      featuredImage: "assets/img/cards/39491_417247712273_132390222273_5255635_1224479_n.jpg"
     },
     {
       sortKey: "179",
@@ -436,7 +436,7 @@ window.SITE_DATA = {
       date: "26 Jul 2010",
       url: "https://dinoacuna.wordpress.com/2010/07/26/sona-shallow-and-dry-yet-straight-to-the-point-like-hitting-bullets/",
       slug: "sona-shallow-and-dry-yet-straight-to-the-point-like-hitting-bullets",
-      featuredImage: "assets/img/posts/noynoy-aquino.jpg"
+      featuredImage: "assets/img/cards/noynoy-aquino.jpg"
     },
     {
       sortKey: "171",
@@ -446,7 +446,7 @@ window.SITE_DATA = {
       date: "26 Jul 2010",
       url: "https://dinoacuna.wordpress.com/2010/07/26/p-noy-sona-2010/",
       slug: "p-noy-sona-2010",
-      featuredImage: "assets/img/posts/noy.jpg"
+      featuredImage: "assets/img/cards/noy.jpg"
     },
     {
       sortKey: "155",
@@ -456,7 +456,7 @@ window.SITE_DATA = {
       date: "26 Jul 2010",
       url: "https://dinoacuna.wordpress.com/2010/07/26/pangilinan-backs-out-of-the-race-for-senate-presidency/",
       slug: "pangilinan-backs-out-of-the-race-for-senate-presidency",
-      featuredImage: "assets/img/posts/243484226_a86ccefb04.jpg"
+      featuredImage: "assets/img/cards/243484226_a86ccefb04.jpg"
     },
     {
       sortKey: "127",
@@ -466,7 +466,7 @@ window.SITE_DATA = {
       date: "24 Jul 2010",
       url: "https://dinoacuna.wordpress.com/2010/07/24/the-kind-of-trouble-merly-fortu-got-herself-into/",
       slug: "the-kind-of-trouble-merly-fortu-got-herself-into",
-      featuredImage: "assets/img/posts/34207_409058686589_826376589_4260603_42710_n.jpg"
+      featuredImage: "assets/img/cards/34207_409058686589_826376589_4260603_42710_n.jpg"
     },
     {
       sortKey: "101",
@@ -476,7 +476,7 @@ window.SITE_DATA = {
       date: "23 Jul 2010",
       url: "https://dinoacuna.wordpress.com/2010/07/23/the-battle-for-senate-presidencyis-it-going-to-be-pangilinan-villar-or-enrile/",
       slug: "the-battle-for-senate-presidencyis-it-going-to-be-pangilinan-villar-or-enrile",
-      featuredImage: "assets/img/posts/senate_seal2.png"
+      featuredImage: "assets/img/cards/senate_seal2.png"
     },
     {
       sortKey: "59",
@@ -486,7 +486,7 @@ window.SITE_DATA = {
       date: "21 Jul 2010",
       url: "https://dinoacuna.wordpress.com/2010/07/21/pagcor-and-the-yummy-burger/",
       slug: "pagcor-and-the-yummy-burger",
-      featuredImage: "assets/img/posts/pagcor_logo.jpg"
+      featuredImage: "assets/img/cards/pagcor_logo.jpg"
     },
     {
       sortKey: "40",
@@ -496,7 +496,7 @@ window.SITE_DATA = {
       date: "21 Jul 2010",
       url: "https://dinoacuna.wordpress.com/2010/07/21/why-did-comelec-allow-mikey-arroyo-to-represent-security-guards-and-cab-drivers/",
       slug: "why-did-comelec-allow-mikey-arroyo-to-represent-security-guards-and-cab-drivers",
-      featuredImage: "assets/img/posts/comelec_seal.png"
+      featuredImage: "assets/img/cards/comelec_seal.png"
     },
     {
       sortKey: "27",
@@ -506,7 +506,7 @@ window.SITE_DATA = {
       date: "20 Jul 2010",
       url: "https://dinoacuna.wordpress.com/2010/07/20/too-much-politics-in-the-senate/",
       slug: "too-much-politics-in-the-senate",
-      featuredImage: "assets/img/posts/senate_seal.png"
+      featuredImage: "assets/img/cards/senate_seal.png"
     },
     {
       sortKey: "09",
@@ -516,7 +516,7 @@ window.SITE_DATA = {
       date: "20 Jul 2010",
       url: "https://dinoacuna.wordpress.com/2010/07/20/where-is-lakas-kampi-cmd-now/",
       slug: "where-is-lakas-kampi-cmd-now",
-      featuredImage: "assets/img/posts/150px-coat_of_arms_of_the_philippines_svg1.png"
+      featuredImage: "assets/img/cards/150px-coat_of_arms_of_the_philippines_svg1.png"
     },
     {
       sortKey: "01",
@@ -526,7 +526,7 @@ window.SITE_DATA = {
       date: "19 Jul 2010",
       url: "https://dinoacuna.wordpress.com/2010/07/19/hello-world/",
       slug: "hello-world",
-      featuredImage: "assets/img/posts/imag0012.jpg"
+      featuredImage: "assets/img/cards/imag0012.jpg"
     },
   ],
 };

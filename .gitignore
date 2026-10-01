@@ -10,3 +10,9 @@ Thumbs.db
 # audit output — regenerate with: node tools/audit.mjs <url>
 # (the scripts themselves ARE tracked; only the generated artefacts are not)
 tools/shots/
+
+# temporary tree built by tools/verify-subpath.mjs
+.subpath-check/
+
+# assembled by the Pages workflow
+_site/

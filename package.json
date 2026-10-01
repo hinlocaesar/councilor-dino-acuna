@@ -18,12 +18,17 @@
     "fetch:editorial": "node tools/fetch-editorial-images.mjs",
     "fetch:fonts": "node tools/fetch-fonts.mjs",
     "sync:static": "node tools/sync-static-blog.mjs",
+    "optimize:images": "node tools/optimize-images.mjs",
     "verify:images": "node tools/verify-images.mjs",
-    "import:blog": "npm run export:blog && npm run fetch:images && npm run fetch:editorial && npm run sync:static && npm run verify:images"
+    "verify:subpath": "node tools/verify-subpath.mjs",
+    "payload": "node tools/report-payload.mjs",
+    "import:blog": "npm run export:blog && npm run fetch:images && npm run fetch:editorial && npm run sync:static && npm run optimize:images && npm run verify:images",
+    "verify": "npm run verify:images && npm run verify:subpath && npm run audit:static"
   },
   "devDependencies": {
     "live-server": "^1.2.2",
-    "playwright": "^1.63.0"
+    "playwright": "^1.63.0",
+    "sharp": "^0.35.5"
   },
   "browserslist": [
     "defaults",

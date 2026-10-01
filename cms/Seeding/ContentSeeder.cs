@@ -95,7 +95,7 @@ public static class ContentSeeder
                     "Run: node tools/export-wordpress.mjs");
                 posts = FallbackPosts
                     .Select(p => new PostEntry(
-                        p.SortKey, p.Title, p.Excerpt, p.Tag, p.Date, p.Url, "", "", ""))
+                        p.SortKey, p.Title, p.Excerpt, p.Tag, p.Date, p.Url, "", "", "", ""))
                     .ToList();
             }
 
@@ -124,6 +124,7 @@ public static class ContentSeeder
                 ("url", p.Url),
                 ("body", p.Body),
                 ("featuredImage", p.FeaturedImage),
+                ("cardImage", p.CardImage),
                 ("wordpressSlug", p.Slug)
             }.ToArray()));
 
@@ -159,7 +160,7 @@ public static class ContentSeeder
     /// <summary>A blog entry, either from the WordPress export or the fallback list.</summary>
     private sealed record PostEntry(
         string SortKey, string Title, string Excerpt, string Tag, string Date, string Url,
-        string Body, string FeaturedImage, string Slug);
+        string Body, string FeaturedImage, string CardImage, string Slug);
 
     /// <summary>
     /// Reads cms/Seeding/wordpress-posts.json, produced by
@@ -213,6 +214,7 @@ public static class ContentSeeder
                     Url: S("url"),
                     Body: S("body"),
                     FeaturedImage: S("featuredImage"),
+                    CardImage: S("cardImage"),
                     Slug: S("slug")));
             }
 
@@ -334,6 +336,9 @@ public static class ContentSeeder
         Prop(post, T(Constants.PropertyEditors.Aliases.TextBox), "url", "Blog URL");
         Prop(post, T(Constants.PropertyEditors.Aliases.RichText), "body", "Full post (imported from WordPress)");
         Prop(post, T(Constants.PropertyEditors.Aliases.TextBox), "featuredImage", "Featured image URL");
+        // The 440px copy built by tools/optimize-images.mjs, used for the card
+        // thumbnail. Falls back to featuredImage in the view.
+        Prop(post, T(Constants.PropertyEditors.Aliases.TextBox), "cardImage", "Card thumbnail URL");
         Prop(post, T(Constants.PropertyEditors.Aliases.TextBox), "wordpressSlug", "WordPress slug");
         svc.Save(post, UserId);
 

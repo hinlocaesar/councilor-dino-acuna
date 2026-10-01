@@ -449,12 +449,14 @@
                 var hasBody = !string.IsNullOrWhiteSpace(p.Value<string>("body"));
                 var href = hasBody ? "/post/" + slug : url;
                 var external = !hasBody;
-                var thumb = p.Value<string>("featuredImage");
+                // the 440px card copy, falling back to the full-size image
+                var cardThumb = p.Value<string>("cardImage");
+                if (string.IsNullOrWhiteSpace(cardThumb)) cardThumb = p.Value<string>("featuredImage");
                 <article class="post post-has-img reveal">
-                    @if (!string.IsNullOrWhiteSpace(thumb))
+                    @if (!string.IsNullOrWhiteSpace(cardThumb))
                     {
                         <a class="post-thumb" href="@href" target="@(external ? "_blank" : "_self")" rel="@(external ? "noopener" : null)" tabindex="-1" aria-hidden="true">
-                            <img src="@thumb" alt="" loading="lazy" decoding="async" />
+                            <img src="@cardThumb" alt="" loading="lazy" decoding="async" />
                         </a>
                     }
                     <div class="post-body">

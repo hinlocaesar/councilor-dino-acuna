@@ -18,7 +18,7 @@ page.
 | Stack | HTML / CSS / vanilla JS | ASP.NET Core 10 + Umbraco 17 LTS |
 | Content lives in | `assets/js/data.js` | the Umbraco backoffice |
 | Run it | `npm run dev` → **:4321** | `dotnet run` → **:5001** |
-| Hosting | any static host | needs .NET |
+| Hosting | any static host — **deployed to GitHub Pages** | needs .NET |
 | Write-up | this file | **[cms/README.md](cms/README.md)** |
 
 The design is identical between them — the Umbraco build reuses the same CSS
@@ -181,11 +181,47 @@ re-running skips work that is already done.
 | `npm run fetch:images` | Downloads every image the posts reference (deduplicating WordPress's `?w=150 / ?w=300 / ?w=1024` renditions down to 261 real files) and rewrites the bodies to point at the local copies |
 | `npm run fetch:editorial` | Same for the 7 photographs hard-coded in the views and `index.html` |
 | `npm run fetch:fonts` | Downloads the woff2 subsets from Google, writes `assets/css/fonts.css` and `cms/wwwroot/css/fonts.css` with the right URL prefix for each build |
+| `npm run optimize:images` | Re-encodes every image with mozjpeg at the right size for where it is displayed, and builds the small card thumbnails |
 | `npm run sync:static` | Regenerates the `posts` array of `assets/js/data.js` from the export, so both builds list all 40 posts |
 | `npm run verify:images` | Checks every downloaded image has valid header and end markers and real dimensions — a connection truncated mid-stream still passes a byte-size check but renders as nothing |
+| `npm run verify:subpath` | Mounts the build under `/councilor-dino-acuna/` and loads it in a browser, which is how Pages serves it |
+
+Run the whole thing with `npm run import:blog`, or `npm run verify` to check the
+committed result. Both are safe to re-run.
 
 The Umbraco build keeps its own copy of the same content, seeded from
 `cms/Seeding/wordpress-posts.json` — see **[cms/README.md](cms/README.md)**.
+
+## Image sizes
+
+The same photograph appears at two very different widths, so the pipeline
+produces two size classes:
+
+| | Source width | Where it is shown | Displayed at |
+| --- | --- | --- | --- |
+| `assets/img/posts/` | 900px | article bodies (`.post-full-inner` is 760px) | up to 760px |
+| `assets/img/cards/` | 440px | journal cards (a 38% column) | ~207px |
+
+Letting the browser shrink one 900px file for a 207px slot was the single
+largest waste — a card thumbnail at full size is roughly **4× larger** than it
+needs to be.
+
+Everything is re-encoded through mozjpeg, which strips the EXIF block WordPress
+attached and drops the quality far below what WordPress served.
+
+| | Before | After |
+| --- | --- | --- |
+| Published (static build) | 25.24 MB | **11.58 MB** |
+| First visit (home page) | ~4 MB | **1.05 MB** |
+
+A first visit downloads the markup, CSS, JS, the 40 card thumbnails and only
+the Latin font subsets — the 261 article images load only when an article is
+opened. `npm run payload` prints both figures.
+
+WebP was tested at the same perceived quality and saved only 16–22%, which did
+not seem worth renaming every reference across the JSON, the Razor views and the
+HTML. `tools/calibrate.mjs` reproduces those measurements.
+
 
 ## Testing
 
@@ -209,10 +245,32 @@ exits non-zero on failure, so it drops straight into CI.
 
 ## Deploying
 
-The site is fully static — any host works.
+The site is fully static — any host works. GitHub Pages is already wired up.
 
-- **GitHub Pages:** push to a repo, then *Settings → Pages → Deploy from branch*.
+### GitHub Pages
+
+**One-time setup:** *Settings → Pages → Build and deployment → Source: **GitHub
+Actions***. After that, every push to `main` deploys itself.
+
+The workflow at `.github/workflows/deploy-pages.yml` publishes **only the
+static build** (`index.html` + `assets/`). The Umbraco project under `cms/`
+needs .NET and SQLite, which Pages cannot run, so it stays in the repository for
+local use and is not deployed.
+
+Because this is a *project* repository, Pages serves it from a subpath:
+`https://hinlocaesar.github.io/councilor-dino-acuna/`. Every asset reference
+has to be document-relative or it will 404 there while working perfectly
+locally — `npm run verify:subpath` mounts the build under that prefix and loads
+it in a real browser to prove it, and CI runs the same check before publishing.
+
+To deploy by hand, use the **Actions** tab → *Deploy to GitHub Pages* → *Run
+workflow*.
+
+### Elsewhere
+
 - **Netlify / Vercel:** drag the folder in, or connect the repo. No build command.
+- **Your own server:** upload `index.html` and `assets/` to any web root.
+
 
 ## Disclaimer
 
