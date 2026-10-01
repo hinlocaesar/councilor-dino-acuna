@@ -74,6 +74,7 @@ jobs:
       - name: Check the site works from a subpath
         run: |
           npx playwright install --with-deps chromium
+          node tools/check-fonts.mjs
           node tools/verify-export.mjs
 
       - uses: actions/configure-pages@v5

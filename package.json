@@ -25,7 +25,7 @@
     "//pages": "The GitHub Pages site. Edit in the Umbraco backoffice, then run pages:build and commit dist/ -- CI publishes what is committed, because the content lives in a local SQLite database that the runner cannot see.",
     "pages:export": "node tools/export-static.mjs",
     "pages:assemble": "node tools/assemble-pages.mjs",
-    "pages:verify": "node tools/check-export.mjs && node tools/verify-export.mjs",
+    "pages:verify": "node tools/check-export.mjs && node tools/check-fonts.mjs && node tools/verify-export.mjs",
     "pages:build": "npm run pages:export && npm run pages:assemble && npm run pages:verify",
     "//import": "The content pipeline. Run in order; each step is idempotent. Run this to rebuild from dinoacuna.wordpress.com — the committed results mean it is not needed to run the site.",
     "import:blog": "npm run export:blog && npm run fetch:images && npm run fetch:editorial && npm run sync:static && npm run optimize:images && npm run verify:images",

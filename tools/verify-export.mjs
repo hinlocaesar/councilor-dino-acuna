@@ -21,7 +21,11 @@ import { chromium } from "playwright";
 
 const PREFIX = process.argv[2] || "/councilor-dino-acuna";
 const ROOT = join(process.cwd(), "dist");
-const PORT = 4400;
+// Bind an ephemeral port rather than a fixed one. A hard-coded 4400 collides
+// with anything else using it -- including a preview server left running from
+// an earlier check -- and failing on that has nothing to do with whether the
+// export is sound.
+const PORT = Number(process.argv[3]) || 0;
 
 const MIME = {
   ".html": "text/html; charset=utf-8",
@@ -57,8 +61,9 @@ const server = createServer((req, res) => {
   res.end(readFileSync(file));
 });
 
-await new Promise((r) => server.listen(PORT, r));
-const BASE = `http://localhost:${PORT}${PREFIX}`;
+await new Promise((r) => server.listen(PORT, "127.0.0.1", r));
+const actual = server.address().port;
+const BASE = `http://127.0.0.1:${actual}${PREFIX}`;
 console.log(`\nserving dist/ at ${BASE}/\n`);
 
 const browser = await chromium.launch();
